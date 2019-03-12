@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8" />
+		<title>区块链追溯平台</title>
+		<link href="css/index.css" rel="stylesheet">
+		<script src="js/app.js"></script>
+		<script type="text/javascript" src="js/jquery.min.js"></script>
+		<script type="text/javascript" src="js/browser-solc.js"></script>
+		<script type="text/javascript" src="js/web3.min.js"></script>
+	</head>
+
+	<body onload="App.initialFunc()" id="body">
+		<!--初始界面-->
+		<div id="header">
+			<div id="front">
+				<div id="headline">
+					<h1 id="head">区块链追溯平台</h1>
+				</div>
+				<div id="personal">
+					<div class="center">
+						<a href="#" onclick="App.displayLogin()" id="person">登录</a>
+					</div>
+				</div>
+			</div>
+			<div id="navigation">
+				<nav>
+					<div id="nav">
+						<a href="#" class="center" onclick="App.initialFunc()">首页</a>
+					</div>
+					<div id="nav">
+						<a href="#" id="allproduct" class="center" onclick="App.displayAllProduct()">产品</a>
+					</div>
+					<div id="nav">
+						<a href="#" class="center" onclick="App.initialFunc()">联系</a>
+					</div>
+				</nav>
+			</div>
+		</div>
+
+		<div id="chief">
+			<div id="container">
+				<div id="divider">
+					<div id="divider-second">
+						<div id="divid">
+							<div id="query">
+								<a id="query_button" href="#" onclick="App.chooseID()"}>追溯码</a>
+							</div>
+							<div id="query">
+								<a id="query_button" href="#" onclick="App.chooseNAME()">产品名称</a>
+							</div>
+							<div id="query">
+								<a id="query_button" href="#" onclick="App.chooseDIVID()">产品分类</a>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div id="search">
+					<div id="search-box">
+						<div id="input">
+							<div id="input-text">
+								<input id="searchproduct" type="text" class="search" data-target="1" placeholder="请输入追溯码">
+							</div>
+							<div id="input-button">
+								<button onclick="App.findById()" class="button" id="ascendproduct">查询</button>
+							</div>		
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<!--登录界面-->
+			<div id="login">
+				<div id="login_style">
+					<div>
+						<div id="login_input">
+							<label>邮箱：</label>
+							<input id="emailinput_login" type="email" placeholder="请输入电子邮箱地址！">
+						</div>
+						<div id="login_input">
+							<label>密码：</label>
+							<input id="passwordinput_login" type="password" placeholder="请输入密码！">
+						</div>
+					</div>
+					<div>
+						<div id="btn_index">
+							<button id="btn" onclick="App.login()">登录</button>
+						</div>
+						<div id="btn_index">
+							<button id="btnroot" onclick="App.displayLoginRoot()">ROOT</button>
+						</div>
+						<div id="btn_index">
+							<button id="btn" onclick="App.displayRegister()">注册</button>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<!--注册界面-->
+			<div id="register">
+				<div id="register_style">
+					<div>
+						<label>邮箱：</label>
+						<input id="emailinput_register" type="text" placeholder="请输入电子邮箱地址！">
+					</div>
+					<div>
+						<label>密码：</label>
+						<input id="passwordinput_register" type="text" placeholder="请输入密码！">
+					</div>
+					<div>
+						<label>姓名：</label>
+						<input id="nameinput_register" type="text" placeholder="请输入你的姓名！">
+					</div>
+					<div>
+						<label>身份：</label>
+						<select id="roleselect_register">
+							<option value='0'>Producer</option>
+							<option value='1'>Tradesman</option>
+							<option value='2'>Consumer</option>
+						</select>
+					</div>
+					<div id="btn_index">
+						<button id="btn" onclick="App.setObjectInfo()">注册</button>
+					</div>
+					<div id="btn_index">
+						<button id="btn" onclick="App.displayLogin()">返回登录</button>
+					</div>
+				</div>
+			</div>
+
+			<!--产品界面-->
+			<div id="product">
+				<div id="productinfo">产品信息</div>
+				<div id="product_info">
+
+				</div>
+				<div id="productsearch">
+
+				</div>
+			</div>
+
+			<!--theperson-->
+			<div id="thePerson">
+				<div id="btn_index">
+					<button id="btn" onclick="App.getAllObjectInfo()">查询用户信息</button>
+				</div>
+				<div id="btn_index">
+					<button id="btn" onclick="App.dropout()">退出账号</button>
+				</div>
+			</div>
+
+			<!--生产者-->
+			<div id="producer">
+				<div id="btn_index">
+					<button id="btn" onclick="App.getObjectInfo()">查询用户信息</button>
+				</div>
+				<div id="btn_index">
+					<button id="btn" onclick="App.displaySetProductInfo()">录入新产品信息</button>
+				</div>
+				<div id="btn_index">
+					<button id="btn" onclick="App.displaySetRole()">指定交易对象身份</button>
+				</div>
+				<div id="btn_index">
+					<button id="btn" onclick="App.displayGetRole()">获取现在指定的交易对象身份</button>
+				</div>
+				<div id="btn_index">
+					<button id="btn" onclick="App.dropout()">退出账号</button>
+				</div>
+			</div>
+
+			<!--零售商-->
+			<div id="tradesman">
+				<div id="btn_index">
+					<button id="btn" onclick="App.getObjectInfo()">查询用户信息</button>
+				</div>
+				<div id="btn_index">
+					<button id="btn" onclick="App.displaySetRole()">指定交易对象身份</button>
+				</div>
+				<div id="btn_index">
+					<button id="btn" onclick="App.displayGetRole()">获取现在指定的交易对象身份</button>
+				</div>
+				<div id="btn_index">
+					<button id="btn" onclick="App.dropout()">退出账号</button>
+				</div>
+			</div>
+
+			<!--消费者-->
+			<div id="consumer">
+				<div id="btn_index">
+					<button id="btn" onclick="App.getObjectInfo()">查询用户信息</button>
+				</div>
+				<div id="btn_index">
+					<button id="btn" onclick="App.displaySetRole()">指定交易对象身份</button>
+				</div>
+				<div id="btn_index">
+					<button id="btn" onclick="App.displayGetRole()">获取现在指定的交易对象身份</button>
+				</div>
+				<div id="btn_index">
+					<button id="btn" onclick="App.dropout()">退出账号</button>
+				</div>
+			</div>
+
+			<!--设置-->
+			<div id="setting">
+				<div id="setrole">
+					<div>
+						<label>用户指定身份：</label>
+						<select id="roleselect_setrole">
+							<option value='0'>Producer</option>
+							<option value='1'>Tradesman</option>
+							<option value='2'>Consumer</option>
+						</select>
+					</div>
+					<div id="btn_index">
+						<button id="btn" onclick="App.setRole()">确定</button>
+					</div>
+				</div>
+				<div id="getrole">
+					<div>
+						<label>地址：</label>
+						<input id="addressinput_getrole" type="text" placeholder="请输入你的用户地址！">
+					</div>
+					<div id="btn_index">
+						<button id="btn" onclick="App.getRole()">查询</button>
+					</div>
+				</div>
+				<div id="setproduct">
+					<div>
+						<label>产品ID：</label>
+						<input id="productidinput_setproduct" type="text" placeholder="请输入产品ID！">
+					</div>
+					<div>
+						<label>产品名称：</label>
+						<input id="productnameinput_setproduct" type="text" placeholder="请输入产品名称！">
+					</div>
+					<div id="btn_index">
+						<button id="btn" onclick="App.producerSetProductInfo()">确定</button>
+					</div>
+				</div>
+				<div id="buyproduct">
+					<div>
+						<label>产品序号：</label>
+						<input id="productcountinput_setproducttradesman" type="number" placeholder="请输入产品序号！">
+					</div>
+					<div id="btn_index">
+						<button id="btn" onclick="App.tradesmanSetProductInfo()">确定购买</button>
+					</div>
+				</div>
+				<div id="object_info">
+
+				</div>
+				<div id="roleinfo">
+
+				</div>
+			</div>
+		</div>
+		<div id="footer">
+			<div id="bottom">
+				<p>基于物联网区块链的古董字画宝石追溯系统</p>
+				<p>由高泽华老师指导，梁勋铵、石承致、赵晨晨三人共同开发</p>
+			</div>
+		</div>
+	</body>
+
+</html>

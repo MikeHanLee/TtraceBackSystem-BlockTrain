@@ -1,0 +1,380 @@
+html {
+	height: 100%;
+}
+
+body {
+	margin: 0;
+	height: 100%;
+}
+
+th{
+	width:100px;
+}
+
+nav {
+	width: 100%;
+	height: 100%;
+	background-color: #FF0000;
+	display: -webkit-flex;
+	display: flex;
+	-webkit-flex-direction: row;
+	flex-direction: row;
+}
+
+a {
+	text-align: center;
+	color: yellow;
+	font-family: "微软雅黑";
+	font-weight: bold;
+	text-decoration: none;
+}
+
+input {
+	margin: auto;
+	height: 100%;
+	width: 100%;
+	border-radius: 40px;
+	text-indent: 20px;
+	font-size: 30px;
+	border: 0;
+}
+
+label {
+	color: #00FF00;
+	font-size: 30px
+}
+
+#header {
+	background-color: #FFFFFF;
+	height: 15%;
+}
+
+#headline {
+	height: 100%;
+	width: 80%;
+	float: left;
+	display: -webkit-flex;
+	display: flex;
+	-webkit-flex-direction: column;
+	flex-direction: column
+}
+
+#head {
+	margin: auto;
+	margin-left: 2%;
+	color: #22FFFF;
+}
+
+#navigation {
+	height: 40%;
+	margin: 0
+}
+
+#nav {
+	margin: auto;
+	width: 100%;
+	height: 100%;
+	text-align: center;
+	border: dashed;
+	background-color: #FF0000;
+	font-size: 25px;
+	border-color: white
+}
+
+#chief {
+	background-color: #222222;
+	height: 70%;
+	overflow: overlay;
+	margin: 0;
+}
+
+#container {
+	background-color: #222222;
+	height: 100%;
+	display: -webkit-flex;
+	display: flex;
+	-webkit-flex-direction: column;
+	flex-direction: column
+}
+
+#divider {
+	width: 100%;
+	height: 50%;
+	display: -webkit-flex;
+	display: flex;
+	-webkit-flex-direction: column;
+	flex-direction: column;
+}
+
+#divider-second {
+	margin: auto;
+	height: 80%;
+	width: 80%;
+	display: -webkit-flex;
+	display: flex;
+	-webkit-flex-direction: column;
+	flex-direction: column;
+}
+
+#divid {
+	margin: auto;
+	width:100%;
+	height: 100%;
+	display: -webkit-flex;
+	display: flex;
+	-webkit-flex-direction: row;
+	flex-direction: row;
+}
+
+#query {
+	margin: auto;
+	width: 30%;
+	height:auto;
+	border: double;
+	text-align: center;
+	color: limegreen;
+	border-radius: 40px;
+}
+
+#query_button{
+	color:#00FF00;
+	font-size:30px;
+	height:100%;
+}
+
+#search {
+	width: 100%;
+	height: 50%;
+	display: -webkit-flex;
+	display: flex;
+	-webkit-flex-direction: column;
+	flex-direction: column;
+	background-color: green;
+}
+
+#search-box {
+	margin: auto;
+	height: 30%;
+	width: 70%;
+	position: relative;
+}
+
+#input {
+	height: 100%;
+	width: 100%;
+}
+
+#input-text {
+	height: 100%;
+	width: 100%;
+}
+
+#input-button {
+	width: height;
+	height: 100%;
+	top: 0%;
+	right: 0%;
+	position: absolute;
+}
+
+#footer {
+	height: 15%;
+	border: dashed;
+	background-color: #444444;
+	margin: 0;
+}
+
+#bottom {
+	width: 80%;
+	height: 100%;
+	margin: auto;
+	text-align: center;
+	font-size: 15px;
+	background-color: "#444444";
+	color: #BBBBBB;
+}
+
+#login {
+	background-color: #222222;
+	height: 100%;
+}
+
+#login_style {
+	margin: auto;
+	background-color: #222222;
+	height: 50%;
+	width: 30%;
+}
+
+#login_input {
+	padding: 5%;
+	width: 100%;
+}
+
+#btn_index {
+	margin: auto;
+	width: 50%;
+}
+
+#btn {
+	height: 100%;
+	width: 100%;
+	margin: 5%;
+	border-radius: 40px;
+	font-size: 30px;
+	background-color: #00AAFF;
+	font-weight: bold;
+	border-color: #55555;
+	color: white;
+}
+
+#btnroot {
+	height: 100%;
+	width: 100%;
+	margin: 5%;
+	border-radius: 40px;
+	font-size: 30px;
+	background-color: #00AAFF;
+	font-weight: bold;
+	border-color: #55555;
+	color: white;
+}
+
+#register {
+	background-color: #222222;
+	height: 100%;
+}
+
+#register_style {
+	margin: auto;
+	background-color: #222222;
+	height: 50%;
+	width: 30%;
+}
+
+#product {
+	background-color: #222222;
+	height: 100%;
+}
+
+#producer {
+	margin: auto;
+	padding: 5%;
+	background-color: #222222;
+	height: 50%;
+	width: 30%;
+}
+
+#setproduct {
+	margin: auto;
+	padding: 5%;
+	background-color: #222222;
+	height: 50%;
+	width: 30%;
+}
+
+#buyproduct {
+	margin: auto;
+	padding: 5%;
+	background-color: #222222;
+	height: 50%;
+	width: 30%;
+}
+
+#setrole {
+	margin: auto;
+	padding: 5%;
+	background-color: #222222;
+	height: 50%;
+	width: 30%;
+}
+
+#getrole {
+	margin: auto;
+	padding: 5%;
+	background-color: #222222;
+	height: 50%;
+	width: 30%;
+}
+
+#tradesman {
+	margin: auto;
+	padding: 5%;
+	background-color: #222222;
+	height: 50%;
+	width: 30%;
+}
+
+#productinfo {
+	color: #00FF00;
+	font-size: 20px;
+	padding-top: 5%;
+	padding-left: 5%;
+}
+
+#product_info {
+	padding: 5%;
+	color: #00FF00;
+}
+
+#productsearch {
+	padding: 5%;
+	color: #00FF00;
+}
+
+#object_info {
+	padding: 5%;
+	color: #00FF00;
+	margin: auto;
+}
+
+#roleinfo{
+	padding: 5%;
+	color: #00FF00;
+	margin: auto;
+}
+
+#consumer {
+	margin: auto;
+	padding: 5%;
+	background-color: #222222;
+	height: 50%;
+	width: 30%;
+}
+
+#front {
+	height: 60%;
+	background-color: green;
+}
+
+#personal {
+	display: -webkit-flex;
+	display: flex;
+	-webkit-justify-content: center;
+	justify-content: center;
+	height: 100%;
+	width: 20%;
+	float: right;
+}
+
+.center {
+	margin: auto;
+	text-align: center;
+}
+
+.button {
+	height: 100%;
+	width: 100%;
+	border-radius: 40px;
+	font-size: 30px;
+	background-color: #00AAFF;
+	font-weight: bold;
+	border-color: #55555;
+	color: #FFFFFF;
+}
+
+@media(min-width:800px)and(max-width:1024px) {
+	.input-button {
+		font-size: 11px
+	}
+}
