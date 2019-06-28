@@ -8,10 +8,25 @@ var roles = {
 	CONSUMER: "Consumer",
 	NONE: "none"
 };
+var classes = {
+	JEWELLERY: "Jewellery",
+	JADE: "Jade",
+	CRAFT: "Craft",
+	NONE: "none"
+};
+var grades = {
+	FIRST_GRADE: "FirstGrade",
+	SECOND_GRADE: "SecondGrade",
+	THIRD_GRADE: "ThirdGrade",
+	NONE: "none"
+};
 var abi;
 var address;
 var deployedAscend;
+var deployedAs;
+var abipy;
 window.App = {
+	web3Provider: null,
 	start: function() {
 		var self = this;
 		web3.eth.getAccounts(function(err, accs) {
@@ -27,677 +42,221 @@ window.App = {
 			accounts = accs;
 			account = accounts[0];
 			web3.eth.defaultAccount = account;
-			BrowserSolc.loadVersion('soljson-v0.4.24+commit.e67f0147.js', function(compiler) {
-				abi = [{
-						"constant": true,
-						"inputs": [],
-						"name": "DisplayProduct",
-						"outputs": [{
-								"name": "",
-								"type": "uint256[]"
-							},
-							{
-								"name": "",
-								"type": "bytes32[]"
-							},
-							{
-								"name": "",
-								"type": "bytes32[]"
-							},
-							{
-								"name": "",
-								"type": "bytes32[]"
-							},
-							{
-								"name": "",
-								"type": "address[]"
-							}
-						],
-						"payable": false,
-						"stateMutability": "view",
-						"type": "function"
-					},
-					{
-						"constant": true,
-						"inputs": [],
-						"name": "GetAllObjectInfo",
-						"outputs": [{
-								"name": "",
-								"type": "uint256[]"
-							},
-							{
-								"name": "",
-								"type": "address[]"
-							},
-							{
-								"name": "",
-								"type": "bytes32[]"
-							},
-							{
-								"name": "",
-								"type": "bytes32[]"
-							},
-							{
-								"name": "",
-								"type": "uint8[]"
-							}
-						],
-						"payable": false,
-						"stateMutability": "view",
-						"type": "function"
-					},
-					{
-						"constant": false,
-						"inputs": [{
-								"name": "_product_id",
-								"type": "bytes32"
-							},
-							{
-								"name": "_product_name",
-								"type": "bytes32"
-							}
-						],
-						"name": "ProducerSetProductInfo",
-						"outputs": [{
-							"name": "",
-							"type": "bool"
-						}],
-						"payable": false,
-						"stateMutability": "nonpayable",
-						"type": "function"
-					},
-					{
-						"constant": true,
-						"inputs": [{
-								"name": "_email",
-								"type": "bytes32"
-							},
-							{
-								"name": "_password",
-								"type": "bytes32"
-							}
-						],
-						"name": "loginroot",
-						"outputs": [{
-							"name": "",
-							"type": "uint8"
-						}],
-						"payable": false,
-						"stateMutability": "view",
-						"type": "function"
-					},
-					{
-						"constant": false,
-						"inputs": [{
-							"name": "_need_role",
-							"type": "uint8"
-						}],
-						"name": "SetRole",
-						"outputs": [{
-							"name": "",
-							"type": "bool"
-						}],
-						"payable": false,
-						"stateMutability": "nonpayable",
-						"type": "function"
-					},
-					{
-						"constant": true,
-						"inputs": [{
-							"name": "_address",
-							"type": "address"
-						}],
-						"name": "GetRole",
-						"outputs": [{
-								"name": "",
-								"type": "uint8"
-							},
-							{
-								"name": "",
-								"type": "bytes32"
-							}
-						],
-						"payable": false,
-						"stateMutability": "view",
-						"type": "function"
-					},
-					{
-						"constant": false,
-						"inputs": [{
-							"name": "_product_count",
-							"type": "uint256"
-						}],
-						"name": "TradesmanSetProductInfo",
-						"outputs": [{
-							"name": "",
-							"type": "bool"
-						}],
-						"payable": false,
-						"stateMutability": "nonpayable",
-						"type": "function"
-					},
-					{
-						"constant": true,
-						"inputs": [{
-								"name": "_email",
-								"type": "bytes32"
-							},
-							{
-								"name": "_password",
-								"type": "bytes32"
-							}
-						],
-						"name": "login",
-						"outputs": [{
-							"name": "",
-							"type": "uint8"
-						}],
-						"payable": false,
-						"stateMutability": "view",
-						"type": "function"
-					},
-					{
-						"constant": true,
-						"inputs": [{
-							"name": "_product_id",
-							"type": "bytes32"
-						}],
-						"name": "FindById",
-						"outputs": [{
-								"name": "",
-								"type": "bytes32"
-							},
-							{
-								"name": "",
-								"type": "bytes32"
-							},
-							{
-								"name": "",
-								"type": "bytes32"
-							}
-						],
-						"payable": false,
-						"stateMutability": "view",
-						"type": "function"
-					},
-					{
-						"constant": true,
-						"inputs": [{
-								"name": "i",
-								"type": "uint256"
-							},
-							{
-								"name": "_product_name",
-								"type": "bytes32"
-							}
-						],
-						"name": "FindByName",
-						"outputs": [{
-								"name": "",
-								"type": "uint256"
-							},
-							{
-								"name": "",
-								"type": "bytes32"
-							},
-							{
-								"name": "",
-								"type": "bytes32"
-							},
-							{
-								"name": "",
-								"type": "bytes32"
-							},
-							{
-								"name": "",
-								"type": "uint256"
-							}
-						],
-						"payable": false,
-						"stateMutability": "view",
-						"type": "function"
-					},
-					{
-						"constant": true,
-						"inputs": [],
-						"name": "GetProductCount",
-						"outputs": [{
-							"name": "",
-							"type": "uint256"
-						}],
-						"payable": false,
-						"stateMutability": "view",
-						"type": "function"
-					},
-					{
-						"constant": true,
-						"inputs": [],
-						"name": "GetObjectInfo",
-						"outputs": [{
-								"name": "",
-								"type": "bytes32"
-							},
-							{
-								"name": "",
-								"type": "bytes32"
-							},
-							{
-								"name": "",
-								"type": "address"
-							},
-							{
-								"name": "",
-								"type": "uint8"
-							},
-							{
-								"name": "",
-								"type": "uint8"
-							}
-						],
-						"payable": false,
-						"stateMutability": "view",
-						"type": "function"
-					},
-					{
-						"constant": true,
-						"inputs": [],
-						"name": "theperson",
-						"outputs": [{
-							"name": "",
-							"type": "address"
-						}],
-						"payable": false,
-						"stateMutability": "view",
-						"type": "function"
-					},
-					{
-						"constant": false,
-						"inputs": [{
-								"name": "_name",
-								"type": "bytes32"
-							},
-							{
-								"name": "_password",
-								"type": "bytes32"
-							},
-							{
-								"name": "_email",
-								"type": "bytes32"
-							},
-							{
-								"name": "_object_role",
-								"type": "uint8"
-							}
-						],
-						"name": "SetObjectInfo",
-						"outputs": [{
-							"name": "",
-							"type": "bool"
-						}],
-						"payable": false,
-						"stateMutability": "nonpayable",
-						"type": "function"
-					},
-					{
-						"constant": true,
-						"inputs": [{
-							"name": "_product_id",
-							"type": "bytes32"
-						}],
-						"name": "GetMoreInfo",
-						"outputs": [{
-								"name": "",
-								"type": "bytes32"
-							},
-							{
-								"name": "",
-								"type": "bytes32"
-							},
-							{
-								"name": "",
-								"type": "bytes32"
-							},
-							{
-								"name": "",
-								"type": "address"
-							},
-							{
-								"name": "",
-								"type": "bytes32[]"
-							},
-							{
-								"name": "",
-								"type": "uint8[]"
-							},
-							{
-								"name": "",
-								"type": "address[]"
-							},
-							{
-								"name": "",
-								"type": "uint256"
-							}
-						],
-						"payable": false,
-						"stateMutability": "view",
-						"type": "function"
-					},
-					{
-						"inputs": [],
-						"payable": false,
-						"stateMutability": "nonpayable",
-						"type": "constructor"
-					},
-					{
-						"anonymous": false,
-						"inputs": [{
-								"indexed": false,
-								"name": "Product_id",
-								"type": "bytes32"
-							},
-							{
-								"indexed": false,
-								"name": "Product_name",
-								"type": "bytes32"
-							},
-							{
-								"indexed": false,
-								"name": "Producer_address",
-								"type": "address"
-							}
-						],
-						"name": "SetProductInfoByProducer",
-						"type": "event"
-					},
-					{
-						"anonymous": false,
-						"inputs": [{
-								"indexed": false,
-								"name": "Product_id",
-								"type": "bytes32"
-							},
-							{
-								"indexed": false,
-								"name": "Product_name",
-								"type": "bytes32"
-							},
-							{
-								"indexed": false,
-								"name": "Tradesman_address",
-								"type": "address"
-							}
-						],
-						"name": "SetProductInfoByTradesman",
-						"type": "event"
-					},
-					{
-						"anonymous": false,
-						"inputs": [{
-								"indexed": false,
-								"name": "Name",
-								"type": "bytes32"
-							},
-							{
-								"indexed": false,
-								"name": "Email",
-								"type": "bytes32"
-							},
-							{
-								"indexed": false,
-								"name": "Object_Role",
-								"type": "uint8"
-							},
-							{
-								"indexed": false,
-								"name": "Object_Need_Role",
-								"type": "uint8"
-							}
-						],
-						"name": "LoginSetInfo",
-						"type": "event"
-					},
-					{
-						"anonymous": false,
-						"inputs": [{
-								"indexed": false,
-								"name": "Name",
-								"type": "bytes32"
-							},
-							{
-								"indexed": false,
-								"name": "Address",
-								"type": "address"
-							},
-							{
-								"indexed": false,
-								"name": "Object_Need_Role",
-								"type": "uint8"
-							}
-						],
-						"name": "LoginSetRole",
-						"type": "event"
-					}
-				]
-				address = '0x3fa4a4bf88efaf15ded82c6afcef1d1144c79eac';
-				deployedAscend = web3.eth.contract(abi).at(address);
+			$.getJSON('../build/contracts/Ascend.json', function(data) {
+				// 用Ascend.json数据创建一个可交互的TruffleContract合约实例。
+				//address = '0xea3f088b76aa2d513e9c9396ac35aa9c3f0418c3';
+				//deployedAscend = web3.eth.contract(data.abi).at(address);
+				deployedAs = TruffleContract(data);
+				deployedAs.setProvider(App.web3Provider);
+				console.log(deployedAs);
+				console.log(App.web3Provider);
+				deployedAs.deployed().then(function(instance) {
+					deployedAscend = web3.eth.contract(data.abi).at(instance.address);
+					//console.log(deployedAscend);
+				}).catch(function(err) {
+					console.log(err.message);
+				});
+				//App.contracts.Ascend = TruffleContract(abipy);
+				// Set the provider for our contract
+				//App.contracts.Ascend.setProvider(App.web3Provider);
+				// Use our contract to retrieve and mark the adopted pets
 			});
 		});
 	},
 	initialFunc: function() {
-		document.getElementById("header").style.display = "block";
-		document.getElementById("chief").style.display = "block";
-		document.getElementById("footer").style.display = "block";
-		document.getElementById("container").style.display = "block";
-		document.getElementById("login").style.display = "none";
-		document.getElementById("register").style.display = "none";
-		document.getElementById("product").style.display = "none";
-		document.getElementById("thePerson").style.display = "none";
-		document.getElementById("producer").style.display = "none";
-		document.getElementById("tradesman").style.display = "none";
-		document.getElementById("consumer").style.display = "none";
-		document.getElementById("setting").style.display = "none";
+		$("header").show();
+		$("#chief").show();
+		$("footer").show();
+		$("#container").show();
+		$("#all").hide();
+		$("#login").hide();
+		$("#register").hide();
+		$("#product").hide();
+		$("#connection").hide();
+		$(document).click(function() {
+			if($(".right:visible").height()) {
+				if($(".right:visible").height() < 550) {
+					$(".left:visible").height('550px');
+				} else {
+					$(".left:visible").height(($("#allparent").height() - 11.85).toString() + 'px');
+				}
+			} else {
+				$(".left").height('550px');
+			}
+		});
 	},
 	displayLogin: function() {
-		document.getElementById("header").style.display = "block";
-		document.getElementById("chief").style.display = "block";
-		document.getElementById("login").style.display = "block";
-		document.getElementById("footer").style.display = "block";
-		document.getElementById("btn").onclick = function() {
-			App.login();
-		}
-		document.getElementById("btnroot").style.display = "block";
-		document.getElementById("container").style.display = "none";
-		document.getElementById("register").style.display = "none";
-		document.getElementById("product").style.display = "none";
-		document.getElementById("thePerson").style.display = "none";
-		document.getElementById("producer").style.display = "none";
-		document.getElementById("tradesman").style.display = "none";
-		document.getElementById("consumer").style.display = "none";
-		document.getElementById("setting").style.display = "none";
-	},
-	displayLoginRoot: function() {
-		document.getElementById("header").style.display = "block";
-		document.getElementById("chief").style.display = "block";
-		document.getElementById("footer").style.display = "block";
-		document.getElementById("login").style.display = "block";
-		document.getElementById("btn").onclick = function() {
-			App.loginroot();
-		}
-		document.getElementById("btnroot").style.display = "none";
-		document.getElementById("container").style.display = "none";
-		document.getElementById("register").style.display = "none";
-		document.getElementById("product").style.display = "none";
-		document.getElementById("thePerson").style.display = "none";
-		document.getElementById("producer").style.display = "none";
-		document.getElementById("tradesman").style.display = "none";
-		document.getElementById("consumer").style.display = "none";
-		document.getElementById("setting").style.display = "none";
+		$("header").show();
+		$("#chief").show();
+		$("#login").show();
+		$("footer").show();
+		$("#all").hide();
+		$("#container").hide();
+		$("#register").hide();
+		$("#product").hide();
+		$("#connection").hide();
 	},
 	displayRegister: function() {
-		document.getElementById("header").style.display = "block";
-		document.getElementById("chief").style.display = "block";
-		document.getElementById("footer").style.display = "block";
-		document.getElementById("register").style.display = "block";
-		document.getElementById("container").style.display = "none";
-		document.getElementById("login").style.display = "none";
-		document.getElementById("product").style.display = "none";
-		document.getElementById("thePerson").style.display = "none";
-		document.getElementById("producer").style.display = "none";
-		document.getElementById("tradesman").style.display = "none";
-		document.getElementById("consumer").style.display = "none";
-		document.getElementById("setting").style.display = "none";
+		$("header").show();
+		$("#chief").show();
+		$("footer").show();
+		$("#register").show();
+		$("#all").hide();
+		$("#container").hide();
+		$("#login").hide();
+		$("#product").hide();
+		$("#connection").hide();
 	},
 	displayProduct: function() {
-		document.getElementById("header").style.display = "block";
-		document.getElementById("chief").style.display = "block";
-		document.getElementById("footer").style.display = "block";
-		document.getElementById("product").style.display = "block";
-		document.getElementById("container").style.display = "none";
-		document.getElementById("login").style.display = "none";
-		document.getElementById("register").style.display = "none";
-		document.getElementById("thePerson").style.display = "none";
-		document.getElementById("producer").style.display = "none";
-		document.getElementById("tradesman").style.display = "none";
-		document.getElementById("consumer").style.display = "none";
-		document.getElementById("setting").style.display = "none";
+		$("header").show();
+		$("#chief").show();
+		$("footer").show();
+		$("#product").show();
+		$("#all").hide();
+		$("#container").hide();
+		$("#login").hide();
+		$("#register").hide();
+		$("#connection").hide();
+	},
+	displayAll: function() {
+		$("header").show();
+		$("#chief").show();
+		$("footer").show();
+		$("#all").show();
+		$("#product").hide();
+		$("#container").hide();
+		$("#login").hide();
+		$("#register").hide();
+		$("#connection").hide();
+	},
+	displayConnection: function() {
+		$("#chief").show();
+		$("#connection").show();
+		$("footer").show();
+		$("header").show();
+		$("#container").hide();
+		$("#login").hide();
+		$("#register").hide();
+		$("#product").hide();
 	},
 	displayTheperson: function() {
-		document.getElementById("header").style.display = "block";
-		document.getElementById("chief").style.display = "block";
-		document.getElementById("footer").style.display = "block";
-		document.getElementById("thePerson").style.display = "block";
-		document.getElementById("container").style.display = "none";
-		document.getElementById("login").style.display = "none";
-		document.getElementById("register").style.display = "none";
-		document.getElementById("product").style.display = "none";
-		document.getElementById("producer").style.display = "none";
-		document.getElementById("tradesman").style.display = "none";
-		document.getElementById("consumer").style.display = "none";
-		document.getElementById("setting").style.display = "none";
+		App.displayAll();
+		$("#thePerson").show();
+		$("#producer").hide();
+		$("#others").hide();
+		$("#objectInfoDIV").hide();
+		$("#getRole").hide();
+		$("#realName").hide();
+		$("#setProduct").hide();
+		$("#buyProduct").hide();
+		$("#personProductInfo").hide();
 	},
 	displayProducer: function() {
-		document.getElementById("header").style.display = "block";
-		document.getElementById("chief").style.display = "block";
-		document.getElementById("footer").style.display = "block";
-		document.getElementById("producer").style.display = "block";
-		document.getElementById("container").style.display = "none";
-		document.getElementById("login").style.display = "none";
-		document.getElementById("register").style.display = "none";
-		document.getElementById("product").style.display = "none";
-		document.getElementById("thePerson").style.display = "none";
-		document.getElementById("tradesman").style.display = "none";
-		document.getElementById("consumer").style.display = "none";
-		document.getElementById("setting").style.display = "none";
+		App.displayAll();
+		$("#producer").show();
+		$("#thePerson").hide();
+		$("#others").hide();
+		$("#objectInfoDIV").hide();
+		$("#getRole").hide();
+		$("#realName").hide();
+		$("#setProduct").hide();
+		$("#buyProduct").hide();
+		$("#personProductInfo").hide();
 	},
-	displayTradesman: function() {
-		document.getElementById("header").style.display = "block";
-		document.getElementById("chief").style.display = "block";
-		document.getElementById("footer").style.display = "block";
-		document.getElementById("tradesman").style.display = "block";
-		document.getElementById("container").style.display = "none";
-		document.getElementById("login").style.display = "none";
-		document.getElementById("register").style.display = "none";
-		document.getElementById("product").style.display = "none";
-		document.getElementById("thePerson").style.display = "none";
-		document.getElementById("producer").style.display = "none";
-		document.getElementById("consumer").style.display = "none";
-		document.getElementById("setting").style.display = "none";
+	displayOthers: function() {
+		App.displayAll();
+		$("#others").show();
+		$("#thePerson").hide();
+		$("#producer").hide();
+		$("#objectInfoDIV").hide();
+		$("#getRole").hide();
+		$("#realName").hide();
+		$("#setProduct").hide();
+		$("#buyProduct").hide();
+		$("#personProductInfo").hide();
 	},
-	displayConsumer: function() {
-		document.getElementById("header").style.display = "block";
-		document.getElementById("chief").style.display = "block";
-		document.getElementById("footer").style.display = "block";
-		document.getElementById("consumer").style.display = "block";
-		document.getElementById("container").style.display = "none";
-		document.getElementById("login").style.display = "none";
-		document.getElementById("register").style.display = "none";
-		document.getElementById("product").style.display = "none";
-		document.getElementById("thePerson").style.display = "none";
-		document.getElementById("producer").style.display = "none";
-		document.getElementById("tradesman").style.display = "none";
-		document.getElementById("setting").style.display = "none";
-	},
-	displaySetting: function() {
-		document.getElementById("chief").style.display = "block";
-		document.getElementById("setting").style.display = "block";
-		document.getElementById("footer").style.display = "block";
-		document.getElementById("header").style.display = "block";
-		document.getElementById("container").style.display = "none";
-		document.getElementById("login").style.display = "none";
-		document.getElementById("register").style.display = "none";
-		document.getElementById("product").style.display = "none";
-		document.getElementById("thePerson").style.display = "none";
-		document.getElementById("producer").style.display = "none";
-		document.getElementById("tradesman").style.display = "none";
-		document.getElementById("consumer").style.display = "none";
-	},
+
 	displayObject_Info: function() {
-		App.displaySetting();
-		document.getElementById("object_info").style.display = "block";
-		document.getElementById("object_info").innerHTML = "";
-		document.getElementById("setrole").style.display = "none";
-		document.getElementById("getrole").style.display = "none";
-		document.getElementById("roleinfo").style.display = "none";
-		document.getElementById("setproduct").style.display = "none";
-		document.getElementById("buyproduct").style.display = "none";
+		App.displayAll();
+		$("#objectInfo").html("");
+		$("#objectInfoDIV").show();
+		$("#getRole").hide();
+		$("#realName").hide();
+		$("#setProduct").hide();
+		$("#buyProduct").hide();
+		$("#personProductInfo").hide();
 	},
-	displaySetRole: function() {
-		App.displaySetting();
-		document.getElementById("setrole").style.display = "block";
-		document.getElementById("object_info").style.display = "none";
-		document.getElementById("getrole").style.display = "none";
-		document.getElementById("roleinfo").style.display = "none";
-		document.getElementById("setproduct").style.display = "none";
-		document.getElementById("buyproduct").style.display = "none";
+	displayRealName: function() {
+		App.displayAll();
+		$("#realName").show();
+		$("#getRole").hide();
+		$("#objectInfoDIV").hide();
+		$("#setProduct").hide();
+		$("#buyProduct").hide();
+		$("#personProductInfo").hide();
+		var Address = $("#addressSelect");
+		for(var i = 0; i < 92; i++) {
+			if(vcity[i] != undefined) {
+				var provinceName = vcity[i];
+				Address.append(new Option(provinceName, provinceName));
+			}
+		}
 	},
 	displayGetRole: function() {
-		App.displaySetting();
-		document.getElementById("getrole").style.display = "block";
-		document.getElementById("setrole").style.display = "none";
-		document.getElementById("object_info").style.display = "none";
-		document.getElementById("roleinfo").style.display = "none";
-		document.getElementById("setproduct").style.display = "none";
-		document.getElementById("buyproduct").style.display = "none";
+		App.displayAll();
+		$("#getRole").show();
+		$("#realName").hide();
+		$("#objectInfoDIV").hide();
+		$("#setProduct").hide();
+		$("#buyProduct").hide();
+		$("#personProductInfo").hide();
 	},
-	displayRoleInfo: function() {
-		App.displaySetting();
-		document.getElementById("roleinfo").style.display = "block";
-		document.getElementById("roleinfo").innerHTML = "";
-		document.getElementById("setrole").style.display = "none";
-		document.getElementById("object_info").style.display = "none";
-		document.getElementById("getrole").style.display = "none";
-		document.getElementById("setproduct").style.display = "none";
-		document.getElementById("buyproduct").style.display = "none";
+	displayPersonProductInfo: function() {
+		App.displayAll();
+		$("#personProductInfo").html("");
+		$("#personProductInfo").show();
+		$("#realName").hide();
+		$("#objectInfoDIV").hide();
+		$("#setProduct").hide();
+		$("#buyProduct").hide();
+		$("#getRole").hide();
 	},
 	displaySetProductInfo: function() {
-		App.displaySetting();
-		document.getElementById("setproduct").style.display = "block";
-		document.getElementById("setrole").style.display = "none";
-		document.getElementById("object_info").style.display = "none";
-		document.getElementById("getrole").style.display = "none";
-		document.getElementById("roleinfo").style.display = "none";
-		document.getElementById("buyproduct").style.display = "none";
+		App.displayAll();
+		$("#setProduct").show();
+		$("#realName").hide();
+		$("#objectInfoDIV").hide();
+		$("#personProductInfo").hide();
+		$("#buyProduct").hide();
+		$("#getRole").hide();
 	},
-	displayBuyProduct: function() {
-		App.displaySetting();
-		document.getElementById("buyproduct").style.display = "block";
-		document.getElementById("setrole").style.display = "none";
-		document.getElementById("object_info").style.display = "none";
-		document.getElementById("getrole").style.display = "none";
-		document.getElementById("roleinfo").style.display = "none";
-		document.getElementById("setproduct").style.display = "none";
+	displayBuyProduct: function(e) {
+		if($("#person").html() == "登录") {
+			alert("请先登录！");
+		} else {
+			App.displayAll();
+			$("#buyProduct").show();
+			$("#others").hide();
+			$("#thePerson").hide();
+			$("#producer").hide();
+			$("#realName").hide();
+			$("#objectInfoDIV").hide();
+			$("#personProductInfo").hide();
+			$("#setProduct").hide();
+			$("#getRole").hide();
+			$("#modifyInfo").attr("onclick", "App.othersSetProductInfoBefore(" + e + ");");
+		}
 	},
 	displayProduct_Info: function() {
 		App.displayProduct();
-		document.getElementById("product_info").style.display = "block";
-		document.getElementById("product_info").innerHTML = "";
-		document.getElementById("productsearch").style.display = "none";
+		$("#productInfo").show();
+		$("#productMoreInfo").hide();
 	},
-	displayProduct_Search: function() {
+	displayProduct_MoreInfo: function() {
 		App.displayProduct();
-		document.getElementById("productsearch").style.display = "block";
-		document.getElementById("productsearch").innerHTML = "";
-		document.getElementById("product_info").style.display = "none";
+		$("#productMoreInfo").show();
+		$("#productInfo").hide();
+		$("#productMoreInfo").html("");
 	},
 	checkRole: function(value) {
 		switch(value) {
@@ -724,114 +283,116 @@ window.App = {
 		}
 		return role;
 	},
-	setObjectInfo: function() {
-		App.displayLogin();
-		var _email = document.getElementById("emailinput_register").value;
-		var _password = document.getElementById("passwordinput_register").value;
-		var _name = document.getElementById("nameinput_register").value;
-		var _role = document.getElementById("roleselect_register").value;
-		deployedAscend = web3.eth.contract(abi).at(address);
-		deployedAscend.SetObjectInfo(_name, _password, _email, _role, function(error) {
-			if(error) {
-				console.error(error);
-				return;
-			}
-			var LoginSetInfo = deployedAscend.LoginSetInfo();
-			LoginSetInfo.watch(function(error, result) {
-				if(!error) {
-					//console.log(web3.toAscii(result.args.Name));
-					//console.log(web3.toAscii(result.args.Object_Role));
-					console.log(result);
+	checkClass: function(value) {
+		switch(value) {
+			case '0':
+				{
+					var classe = classes.JEWELLERY;
+					break;
 				}
-			});
-		});
+			case '1':
+				{
+					var classe = classes.JADE;
+					break;
+				}
+			case '2':
+				{
+					var classe = classes.CRAFT;
+					break;
+				}
+			default:
+				{
+					var classe = classes.NONE;
+					break;
+				}
+		}
+		return classe;
 	},
-	loginroot: function() {
-		var _email = document.getElementById("emailinput_login").value;
-		var _password = document.getElementById("passwordinput_login").value;
-		deployedAscend.loginroot(_email, _password, function(error, returnvalue) {
-			if(error) {
-				console.error(error);
-				return;
-			}
-			console.log(App.checkRole(returnvalue.toString()));
-			switch(returnvalue.toString()) {
-				case '0':
-					var btn = document.getElementById("person");
-					btn.onclick = function() {
-						App.displayProducer();
-					};
-					App.displayProducer();
+	checkGrade: function(value) {
+		switch(value) {
+			case '0':
+				{
+					var grade = grades.FIRST_GRADE;
 					break;
-				case '1':
-					var btn = document.getElementById("person");
-					btn.onclick = function() {
-						App.displayTradesman();
-					};
-					App.displayTradesman();
+				}
+			case '1':
+				{
+					var grade = grades.SECOND_GRADE;
 					break;
-				case '2':
-					var btn = document.getElementById("person");
-					btn.onclick = function() {
-						App.displayConsumer();
-					};
-					App.displayConsumer();
+				}
+			case '2':
+				{
+					var grade = grades.THIRD_GRADE;
 					break;
-				default:
-					var btn = document.getElementById("person");
-					btn.onclick = function() {
-						App.displayTheperson();
-					};
-					App.displayTheperson();
+				}
+			default:
+				{
+					var grade = grades.NONE;
 					break;
-			}
-			App.setPersonRoot();
-		});
+				}
+		}
+		return grade;
 	},
-	login: function() {
-		var _email = document.getElementById("emailinput_login").value;
-		var _password = document.getElementById("passwordinput_login").value;
-		deployedAscend.login(_email, _password, function(error, returnvalue) {
-			if(error) {
-				console.error(error);
-				return;
-			}
-			console.log(App.checkRole(returnvalue.toString()));
-			switch(returnvalue.toString()) {
-				case '0':
-					var btn = document.getElementById("person");
-					btn.onclick = function() {
-						App.displayProducer();
-					};
-					App.displayProducer();
-					break;
-				case '1':
-					var btn = document.getElementById("person");
-					btn.onclick = function() {
-						App.displayTradesman();
-					};
-					App.displayTradesman();
-					break;
-				case '2':
-					var btn = document.getElementById("person");
-					btn.onclick = function() {
-						App.displayConsumer();
-					};
-					App.displayConsumer();
-					break;
-				default:
-					var btn = document.getElementById("person");
-					btn.onclick = function() {
-						App.displayTheperson();
-					};
-					App.displayTheperson();
-					break;
-			}
-			App.setPerson();
-		});
+	checkInfo: function(e, flag) {
+		App.getMoreInfo('id' + $(e).parent().parent().parent().children().eq(1).children().eq(1).html(), flag);
 	},
-	setPerson: function() {
-		deployedAscend.GetObjectInfo.call(function(error, returnvalue) {
+	setObjectInfoBefore: function() {
+		var _email, _password, _name;
+		if($("#emailInputRegister").val() == '') {
+			$("#emailspinfo").text("*邮箱不能为空");
+			$("#emailInputRegister").focus();
+			_email = false;
+		} else {
+			if(/^\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$/.test($("#emailInputRegister").val()) == false) {
+				$("#emailspinfo").text("*邮箱格式不正确，请重新填写");
+				$("#emailInputRegister").focus();
+				_email = false;
+			} else {
+				$("#emailspinfo").text("");
+				_email = true;
+			}
+		}
+		if($("#passwordInputRegister").val() == '') {
+			$("#passwordspinfo").text("*密码不能为空");
+			$("#passwordInputRegister").focus();
+			_password = false;
+		} else {
+			if($("#passwordInputRegister").val().length < 8) {
+				$("#passwordspinfo").text("*密码不能少于8个字符");
+				$("#passwordInputRegister").focus();
+				_password = false;
+			} else {
+				$("#passwordspinfo").text("");
+				_password = true;
+			}
+		}
+		if($("#nameInputRegister").val() == '') {
+			$("#namespinfo").text("*姓名不能为空");
+			$("#nameInputRegister").focus();
+			_name = false;
+		} else {
+			if($("#nameInputRegister").val().length < 5) {
+				$("#namespinfo").text("*姓名不能少于5个字符");
+				$("#nameInputRegister").focus();
+				_password = false;
+			} else {
+				$("#namespinfo").text("");
+				_name = true;
+			}
+		}
+		if(_email & _password & _name) {
+			App.setObjectInfo();
+		}
+	},
+	setObjectInfo: function() {
+		var _emailjudge = true,
+			_namejudge = true;
+		var _email = $("#emailInputRegister").val();
+		var _password = $("#passwordInputRegister").val();
+		var _name = $("#nameInputRegister").val();
+		var _role = $("#roleSelectRegister").val();
+		console.log(deployedAscend);
+		deployedAscend.GetAllObjectInfo.call(function(error, returnvalue) {
 			if(error) {
 				console.error(error);
 				return;
@@ -840,9 +401,293 @@ window.App = {
 			if(index < 0) {
 				return;
 			}
-			console.log(returnvalue);
-			var btn = document.getElementById("person");
-			btn.innerText = web3.toAscii(returnvalue[0]).replace(/\0/g, '');
+			for(var i = 0; i < returnvalue[0].length; i++) {
+				if(web3.toAscii(returnvalue[2][i]).replace(/\0/g, '') == _name) {
+					_namejudge = false;
+					break;
+				}
+				_namejudge = true;
+			}
+			for(var i = 0; i < returnvalue[0].length; i++) {
+				if(web3.toAscii(returnvalue[3][i]).replace(/\0/g, '') == _email) {
+					_emailjudge = false;
+					break;
+				}
+				_emailjudge = true;
+			}
+			if(_emailjudge & _namejudge) {
+				deployedAscend.SetObjectInfo(_name, _password, _email, _role, function(error) {
+					if(error) {
+						console.error(error);
+						return;
+					} else {
+						App.displayLogin();
+					}
+					$("#emailspinfo").text("");
+					$("#namespinfo").text("");
+					var LoginSetInfo = deployedAscend.LoginSetInfo();
+					LoginSetInfo.watch(function(error, result) {
+						if(!result) {
+							console.log(error);
+						} else {
+							console.log(result);
+						}
+					});
+				});
+			} else if(!(_emailjudge | _namejudge)) {
+				$("#emailspinfo").text("*该邮箱已注册，请填写其他邮箱");
+				$("#namespinfo").text("*该名称已被使用，请使用其他姓名或在该姓名之后添加其他字符以区分");
+				$("#emailInputRegister").focus();
+			} else if(_emailjudge) {
+				$("#namespinfo").text("*该名称已被使用，请使用其他姓名或在该姓名之后添加其他字符以区分");
+				$("#nameInputRegister").focus();
+			} else {
+				$("#emailspinfo").text("*该邮箱已注册，请填写其他邮箱");
+				$("#emailInputRegister").focus();
+			}
+		});
+	},
+	isRealNameNull: function() {
+		var _count;
+		deployedAscend.GetAllObjectInfo.call(function(error, returnvalue) {
+			if(error) {
+				console.error(error);
+				return;
+			}
+			var index = returnvalue - 1;
+			if(index < 0) {
+				return;
+			}
+			for(var i = 0; i < returnvalue[0].length; i++) {
+				if($("#person").html() == web3.toAscii(returnvalue[2][i]).replace(/\0/g, '')) {
+					_count = i;
+					break;
+				}
+			}
+
+		});
+	},
+	judgeRealNameNull: function() {
+		var _count;
+		deployedAscend.GetAllObjectInfo.call(function(error, returnvalue) {
+			if(error) {
+				console.error(error);
+				return;
+			}
+			var index = returnvalue - 1;
+			if(index < 0) {
+				return;
+			}
+			for(var i = 0; i < returnvalue[0].length; i++) {
+				if($("#person").html() == web3.toAscii(returnvalue[2][i]).replace(/\0/g, '')) {
+					_count = i;
+					break;
+				}
+			}
+			deployedAscend.GetRealName.call(_count, function(error, returnvalue) {
+				if(error) {
+					console.error(error);
+					return;
+				}
+				var index = returnvalue[0] - 1;
+				if(index < 0) {
+					App.displayRealName();
+					$(realName).children().eq(0).show();
+					$(realName).children().eq(1).hide();
+				} else {
+					App.displayRealIDinfo();
+				}
+			});
+		});
+	},
+	realNameAuthenticateBefore: function() {
+		if(checkCard()) {
+			var _count;
+			deployedAscend.GetAllObjectInfo.call(function(error, returnvalue) {
+				if(error) {
+					console.error(error);
+					return;
+				}
+				var index = returnvalue - 1;
+				if(index < 0) {
+					return;
+				}
+				for(var i = 0; i < returnvalue[0].length; i++) {
+					if($("#person").html() == web3.toAscii(returnvalue[2][i]).replace(/\0/g, '')) {
+						_count = returnvalue[0][i];
+						break;
+					}
+				}
+				App.realNameAuthenticate(_count);
+				switch(returnvalue[3].toString()) {
+					case '0':
+						$("#person").attr("onclick", "App.displayProducer();");
+						App.displayProducer();
+						App.getObjectInfo();
+						break;
+					case '1':
+						$("#person").attr("onclick", "App.displayOthers();");
+						App.displayOthers();
+						App.getObjectInfo();
+						break;
+					case '2':
+						$("#person").attr("onclick", "App.displayOthers();");
+						App.displayOthers();
+						App.getObjectInfo();
+						break;
+					case '3':
+						$("#person").attr("onclick", "App.displayTheperson();");
+						App.displayTheperson();
+						App.getObjectInfo();
+						break;
+					default:
+						break;
+				}
+			});
+		}
+	},
+	realNameAuthenticate: function(_count) {
+		var _IDnumber = 'id' + $("#realIDInput").val();
+		var _realName = $("#realNameInput").val();
+		var _gender = $("#genderSelect").val();
+		var _addressSelect = $("#addressSelect").val();
+		deployedAscend.RealNameAuthenticate(_count, _IDnumber, _realName, _gender, _addressSelect, function(error, result) {
+			if(error) {
+				console.error(error);
+				return;
+			}
+			var realNameInfo = deployedAscend.RealAuthenticate();
+			realNameInfo.watch(function(error, result) {
+				if(!result) {
+					console.log(error);
+				} else {
+					console.log(result);
+				}
+			});
+			if(result) {
+				App.displayRealIDinfo();
+			}
+		});
+	},
+	displayRealIDinfo: function() {
+		App.displayRealName();
+		$(realName).children().eq(0).hide();
+		$(realName).children().eq(1).show();
+		var _count;
+		deployedAscend.GetAllObjectInfo.call(function(error, returnvalue) {
+			if(error) {
+				console.error(error);
+				return;
+			}
+			var index = returnvalue - 1;
+			if(index < 0) {
+				return;
+			}
+			for(var i = 0; i < returnvalue[0].length; i++) {
+				if($("#person").html() == web3.toAscii(returnvalue[2][i]).replace(/\0/g, '')) {
+					_count = i;
+					break;
+				}
+			}
+			deployedAscend.GetRealName.call(_count, function(error, returnvalue) {
+				if(error) {
+					console.error(error);
+					return;
+				}
+				var index = returnvalue - 1;
+				if(index < 0) {
+					return;
+				}
+				$("#realIDInfo").text(web3.toAscii(returnvalue[0]).toString().replace(/\0/g, '').replace('id', ''));
+				$("#realNameInfo").text(returnvalue[1]);
+				$("#genderInfo").text(returnvalue[2]);
+				$("#addressInfo").text(returnvalue[3]);
+			});
+		});
+	},
+	loginBefore: function() {
+		var _email, _password;
+		if($("#emailInputLogin").val() == '') {
+			$("#emailspinfoLogin").text("*邮箱不正确，请重新填写");
+			$("#emailInputLogin").focus();
+			_email = false;
+		} else {
+			if(/^\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$/.test($("#emailInputLogin").val()) == false) {
+				$("#emailspinfoLogin").text("*邮箱格式不正确，请重新填写");
+				$("#emailInputLogin").focus();
+				_email = false;
+			} else {
+				$("#emailspinfoLogin").text("");
+				_email = true;
+			}
+		}
+		if($("#passwordInputLogin").val() == '') {
+			$("#passwordspinfoLogin").text("*密码不正确，请重新填写");
+			$("#passwordInputLogin").focus();
+			_password = false;
+		} else {
+			if($("#passwordInputLogin").val().length < 8) {
+				$("#passwordspinfoLogin").text("*密码不正确");
+				$("#passwordInputLogin").focus();
+				_password = false;
+			} else {
+				$("#passwordspinfoLogin").text("");
+				_password = true;
+			}
+		}
+		if(_email & _password) {
+			App.login();
+		}
+	},
+	login: function() {
+		var _email = $("#emailInputLogin").val();
+		var _password = $("#passwordInputLogin").val();
+		deployedAscend.login(_email, _password, function(error, returnvalue) {
+			if(error) {
+				console.error(error);
+				alert("你的账户不存在或者密码不正确！");
+				return;
+			}
+			var _count = returnvalue[1];
+			App.setPerson(_count);
+			$(":input").val("");
+			switch(returnvalue[0].toString()) {
+				case '0':
+					$("#person").attr("onclick", "App.displayProducer();");
+					App.displayProducer();
+					App.getObjectInfo();
+					break;
+				case '1':
+					$("#person").attr("onclick", "App.displayOthers();");
+					App.displayOthers();
+					App.getObjectInfo();
+					break;
+				case '2':
+					$("#person").attr("onclick", "App.displayOthers();");
+					App.displayOthers();
+					App.getObjectInfo();
+					break;
+				case '3':
+					$("#person").attr("onclick", "App.displayTheperson();");
+					App.displayTheperson();
+					App.getObjectInfo();
+					break;
+				default:
+					break;
+			}
+		});
+	},
+	setPerson: function(_count) {
+		deployedAscend.GetObjectInfo.call(_count, function(error, returnvalue) {
+			if(error) {
+				console.error(error);
+				return;
+			}
+			var index = returnvalue - 1;
+			if(index < 0) {
+				return;
+			}
+			$("#person").html(web3.toAscii(returnvalue[0]).replace(/\0/g, ''));
 		});
 	},
 	setPersonRoot: function() {
@@ -855,88 +700,150 @@ window.App = {
 			if(index < 0) {
 				return;
 			}
-			console.log(returnvalue);
-			var btn = document.getElementById("person");
-			btn.innerText = web3.toAscii(returnvalue[2][0]).replace(/\0/g, '');
+			$("#person").html(web3.toAscii(returnvalue[2][0]).replace(/\0/g, ''));
 		});
 	},
 	dropout: function() {
 		App.displayLogin();
-		var btn = document.getElementById("person");
-		btn.innerText = "登录";
-		btn.onclick = function() {
-			App.displayLogin();
-		};
+		$("#person").attr("onclick", "App.displayLogin();");
+		$("#person").html("登录");
 	},
 	getObjectInfo: function() {
-		App.displayObject_Info();
-		deployedAscend.GetObjectInfo.call(function(error, returnvalue) {
+		var _count = -1;
+		deployedAscend.GetAllObjectInfo.call(function(error, returnvalue) {
 			if(error) {
 				console.error(error);
 				return;
+			} else {
+				App.displayObject_Info();
 			}
 			var index = returnvalue - 1;
 			if(index < 0) {
 				return;
 			}
-			console.log(returnvalue);
-			var div = document.getElementById("object_info");
-			var table = document.createElement('table');
-			var tr1 = document.createElement('tr');
-			var tr2 = document.createElement('tr');
-			var tr3 = document.createElement('tr');
-			var tr4 = document.createElement('tr');
-			var tr5 = document.createElement('tr');
-			var th1 = document.createElement('th');
-			var th2 = document.createElement('th');
-			var th3 = document.createElement('th');
-			var th4 = document.createElement('th');
-			var th5 = document.createElement('th');
-			var td1 = document.createElement('td');
-			var td2 = document.createElement('td');
-			var td3 = document.createElement('td');
-			var td4 = document.createElement('td');
-			var td5 = document.createElement('td');
-			var _email = document.createTextNode(web3.toAscii(returnvalue[1]).replace(/\0/g, ''));
-			var _name = document.createTextNode(web3.toAscii(returnvalue[0]).replace(/\0/g, ''));
-			var _role = document.createTextNode(App.checkRole(returnvalue[3].toString()));
-			var _address = document.createTextNode(returnvalue[2]);
-			var _need_role = document.createTextNode(App.checkRole(returnvalue[4].toString()));
-			var th1_info = document.createTextNode("姓名：");
-			var th2_info = document.createTextNode("邮箱：");
-			var th3_info = document.createTextNode("身份：");
-			var th4_info = document.createTextNode("地址：");
-			var th5_info = document.createTextNode("指定身份：");
-			td1.appendChild(_name);
-			td2.appendChild(_email);
-			td3.appendChild(_role);
-			td4.appendChild(_address);
-			td5.appendChild(_need_role);
-			th1.appendChild(th1_info);
-			th2.appendChild(th2_info);
-			th3.appendChild(th3_info);
-			th4.appendChild(th4_info);
-			th5.appendChild(th5_info);
-			tr1.appendChild(th1);
-			tr2.appendChild(th2);
-			tr3.appendChild(th3);
-			tr4.appendChild(th4);
-			tr5.appendChild(th5);
-			tr1.appendChild(td1);
-			tr2.appendChild(td2);
-			tr3.appendChild(td3);
-			tr4.appendChild(td4);
-			tr5.appendChild(td5);
-			table.appendChild(tr1);
-			table.appendChild(tr2);
-			table.appendChild(tr3);
-			table.appendChild(tr4);
-			table.appendChild(tr5);
-			div.appendChild(table);
+			for(var i = 0; i < returnvalue[0].length; i++) {
+				if($("#person").html() == web3.toAscii(returnvalue[2][i]).replace(/\0/g, '')) {
+					_count = i;
+					break;
+				}
+			}
+			deployedAscend.GetObjectInfo(_count, function(error, returnvalue) {
+				if(error) {
+					console.error(error);
+					return;
+				}
+				var index = returnvalue - 1;
+				if(index < 0) {
+					return;
+				}
+				var table = $("<table class='center-block' style='white-space:nowrap;padding:1%;overflow:auto;border:0.5rem solid #00FF00;color:#00FF00;;margin:1%;border-radius:10px' float='left'></table>");
+				var tr = new Array();
+				var td = new Array();
+				for(var i = 0; i < 4; i++) {
+					tr[i] = $("<tr></tr>");
+				}
+				for(var i = 0; i < 4; i++) {
+					td[i] = $("<td></td>");
+				}
+				var _email = web3.toAscii(returnvalue[1]).replace(/\0/g, '');
+				var _name = web3.toAscii(returnvalue[0]).replace(/\0/g, '');
+				var _role = returnvalue[3].toString();
+				var _address = returnvalue[2];
+				var selector = $("<select id='roleSelect' onchange='App.setRole()'><option value='0'>Producer</option><option value='1'>Tradesman</option><option value='2'>Consumer</option></select>");
+				selector.find("option[value=" + _role + "]").attr("selected", true);
+				td[0].append(_name);
+				td[1].append(_email);
+				td[2].append(selector);
+				td[3].append(_address);
+				tr[0].append($("<th>姓名：</th>"));
+				tr[1].append($("<th>邮箱：</th>"));
+				tr[2].append($("<th>身份：</th>"));
+				tr[3].append($("<th>地址：</th>"));
+				for(var i = 0; i < 4; i++) {
+					tr[i].append(td[i]);
+				}
+				for(var i = 0; i < 4; i++) {
+					table.append(tr[i]);
+				}
+				var div = $("<div class='col-md-6'></div>");
+				div.append(table);
+				$("#objectInfo").append(div);
+			});
 		});
 	},
 	getAllObjectInfo: function() {
-		App.displayObject_Info();
+		deployedAscend.GetAllObjectInfo.call(function(error, returnvalue) {
+			if(error) {
+				console.error(error);
+				return;
+			} else {
+				App.displayObject_Info();
+			}
+			var index = returnvalue - 1;
+			if(index < 0) {
+				return;
+			}
+			for(var i = 0; i < returnvalue[0].length; i++) {
+				var table = $("<table class='center-block' style='white-space:nowrap;padding:1%;overflow:auto;border:0.5rem solid #00FF00;color:#00FF00;;margin:1%;border-radius:10px' float='left'></table>");
+				var tr = new Array();
+				var td = new Array();
+				for(var j = 0; j < 5; j++) {
+					tr[j] = $("<tr></tr>");
+				}
+				for(var j = 0; j < 5; j++) {
+					td[j] = $("<td></td>");
+				}
+				console.log(returnvalue[3][i].toString());
+				var _id = returnvalue[0][i].toString();
+				var _name = web3.toAscii(returnvalue[2][i]).replace(/\0/g, '');
+				var _email = web3.toAscii(returnvalue[3][i]).replace(/\0/g, '');
+				var _role = App.checkRole(returnvalue[4][i].toString());
+				var _address = returnvalue[1][i];
+				td[0].append(_id);
+				td[1].append(_name);
+				td[2].append(_email);
+				td[3].append(_role);
+				td[4].append(_address);
+				tr[0].append($("<th>序号：</th>"));
+				tr[1].append($("<th>姓名：</th>"));
+				tr[2].append($("<th>邮箱：</th>"));
+				tr[3].append($("<th>身份：</th>"));
+				tr[4].append($("<th>地址：</th>"));
+				for(var j = 0; j < 5; j++) {
+					tr[j].append(td[j]);
+				}
+				for(var j = 0; j < 5; j++) {
+					table.append(tr[j]);
+				}
+				var div = $("<div class='col-md-6'></div>");
+				div.append(table);
+				$("#objectInfo").append(div);
+			}
+		});
+	},
+	setRole: function() {
+		var _role = $("#roleSelect").val();
+		var _count = -1;
+		switch(_role) {
+			case '0':
+				$("#person").attr("onclick", "App.displayProducer();");
+				App.displayProducer();
+				break;
+			case '1':
+				$("#person").attr("onclick", "App.displayOthers();");
+				App.displayOthers();
+				break;
+			case '2':
+				$("#person").attr("onclick", "App.displayOthers();");
+				App.displayOthers();
+				break;
+			case '3':
+				$("#person").attr("onclick", "App.displayTheperson();");
+				App.displayTheperson();
+				break;
+			default:
+				break;
+		}
 		deployedAscend.GetAllObjectInfo.call(function(error, returnvalue) {
 			if(error) {
 				console.error(error);
@@ -946,78 +853,150 @@ window.App = {
 			if(index < 0) {
 				return;
 			}
-			console.log(returnvalue);
-			var div = document.getElementById("object_info");
 			for(var i = 0; i < returnvalue[0].length; i++) {
-				var table = document.createElement('table');
-				var tr1 = document.createElement('tr');
-				var tr2 = document.createElement('tr');
-				var tr3 = document.createElement('tr');
-				var tr4 = document.createElement('tr');
-				var tr5 = document.createElement('tr');
-				var th1 = document.createElement('th');
-				var th2 = document.createElement('th');
-				var th3 = document.createElement('th');
-				var th4 = document.createElement('th');
-				var th5 = document.createElement('th');
-				var td1 = document.createElement('td');
-				var td2 = document.createElement('td');
-				var td3 = document.createElement('td');
-				var td4 = document.createElement('td');
-				var td5 = document.createElement('td');
-				var _id = document.createTextNode(returnvalue[0][i]);
-				var _name = document.createTextNode(web3.toAscii(returnvalue[2][i]).replace(/\0/g, ''));
-				var _role = document.createTextNode(App.checkRole(returnvalue[3][i].toString()));
-				var _address = document.createTextNode(returnvalue[1][i]);
-				var th1_info = document.createTextNode("序号：");
-				var th2_info = document.createTextNode("姓名：");
-				var th3_info = document.createTextNode("身份：");
-				var th4_info = document.createTextNode("地址：");
-				td1.appendChild(_id);
-				td2.appendChild(_name);
-				td3.appendChild(_role);
-				td4.appendChild(_address);
-				th1.appendChild(th1_info);
-				th2.appendChild(th2_info);
-				th3.appendChild(th3_info);
-				th4.appendChild(th4_info);
-				tr1.appendChild(th1);
-				tr2.appendChild(th2);
-				tr3.appendChild(th3);
-				tr4.appendChild(th4);
-				tr1.appendChild(td1);
-				tr2.appendChild(td2);
-				tr3.appendChild(td3);
-				tr4.appendChild(td4);
-				table.appendChild(tr1);
-				table.appendChild(tr2);
-				table.appendChild(tr3);
-				table.appendChild(tr4);
-				div.appendChild(table);
-			}
-		});
-	},
-	setRole: function() {
-		var _need_role = document.getElementById("roleselect_setrole").value;
-		deployedAscend.SetRole(_need_role, function(error) {
-			if(error) {
-				console.error(error);
-				return;
-			}
-			var LoginSetRole = deployedAscend.LoginSetRole();
-			LoginSetRole.watch(function(error, result) {
-				if(!result) {
-					console.log(result);
-				} else {
-					console.log(error);
+				if($("#person").html() == web3.toAscii(returnvalue[2][i]).replace(/\0/g, '')) {
+					_count = i;
+					break;
 				}
+			}
+			deployedAscend.SetRole(_count, _role, function(error) {
+				if(error) {
+					console.error(error);
+					return;
+				}
+				var LoginSetRole = deployedAscend.LoginSetRole();
+				LoginSetRole.watch(function(error, result) {
+					if(!result) {
+						console.log(error);
+					} else {
+						console.log(result);
+					}
+				});
+				App.getObjectInfo();
 			});
 		});
 	},
-	getRole: function() {
-		App.displayRoleInfo();
-		var _address = document.getElementById("addressinput_getrole").value;
-		deployedAscend.GetRole.call(_address, function(error, returnvalue) {
+	addInput: function(e) {
+		$(e).parent().parent().parent().append("<div class='row'><div class='col-md-8'><input class='form-control' type='text'></input></div><div class='col-md-2'><a class='btn btn-info' href='#' onclick='App.addInput(this)'>添加</a></div><div class='col-md-2'><a class='btn btn-info' href='#' onclick='App.deleteInput(this)'>删除</a></div></div>");
+	},
+	deleteInput: function(e) {
+		$(e).parent().parent().remove();
+	},
+	producerSetProductInfoBefore: function() {
+		var _productId, _productName, _password, _status, _productWeight, _certificateName, _certificateWeight, _certificateSource, _appraiserDiv, _identifyInfoDiv;
+		if($("#productIdInputSetProduct").val() == '') {
+			$("#productIdspinfo").text("*产品ID不能为空");
+			$("#productIdInputSetProduct").focus();
+			_productId = false;
+		} else {
+			$("#productIdspinfo").text("");
+			_productId = true;
+		}
+		if($("#productNameInputSetProduct").val() == '') {
+			$("#productNamespinfo").text("*产品名称不能为空");
+			$("#productNameInputSetProduct").focus();
+			_productName = false;
+		} else {
+			$("#productNamespinfo").text("");
+			_productName = true;
+		}
+		if($("#passwordInputSetProduct").val() == '') {
+			$("#passwordInputspinfo").text("*产品修改信息密码不能为空");
+			$("#passwordInputSetProduct").focus();
+			_password = false;
+		} else {
+			$("#passwordInputspinfo").text("");
+			_password = true;
+		}
+		if($("#statusInputSetProduct").val() == '') {
+			$("#statusspinfo").text("*产品状况不能为空");
+			$("#statusInputSetProduct").focus();
+			_status = false;
+		} else {
+			$("#statusspinfo").text("");
+			_status = true;
+		}
+		if($("#productWeightSetProduct").val() == '') {
+			$("#productWeightspinfo").text("*产品重量不能为空");
+			$("#productWeightSetProduct").focus();
+			_productWeight = false;
+		} else {
+			$("#productWeightspinfo").text("");
+			_productWeight = true;
+		}
+		if($("#certificateNameSetProduct").val() == '') {
+			$("#certificateNamespinfo").text("*鉴定证书名称不能为空");
+			$("#certificateNameSetProduct").focus();
+			_certificateName = false;
+		} else {
+			$("#certificateNamespinfo").text("");
+			_certificateName = true;
+		}
+		if($("#certificateWeightSetProduct").val() == '') {
+			$("#certificateWeightspinfo").text("*鉴定证书重量不能为空");
+			$("#certificateWeightSetProduct").focus();
+			_certificateWeight = false;
+		} else {
+			$("#certificateWeightspinfo").text("");
+			_certificateWeight = true;
+		}
+		if($("#certificateSourceSetProduct").val() == '') {
+			$("#certificateSourcespinfo").text("*鉴定证书颁布机构不能为空");
+			$("#certificateSourceSetProduct").focus();
+			_certificateSource = false;
+		} else {
+			$("#certificateSourcespinfo").text("");
+			_certificateSource = true;
+		}
+		if($("#appraiserDivSetProduct input:eq(0)").val() == '') {
+			$("#appraiserDivspinfo").text("*鉴定人不能为空且鉴定人不少于两人");
+			$("#appraiserDivSetProduct input:eq(0)").focus();
+			_appraiserDiv = false;
+		} else if($("#appraiserDivSetProduct input:eq(1)").val() == '') {
+			$("#appraiserDivspinfo").text("*鉴定人不能为空且鉴定人不少于两人");
+			$("#appraiserDivSetProduct input:eq(1)").focus();
+			_appraiserDiv = false;
+		} else {
+			$("#appraiserDivspinfo").text("");
+			_appraiserDiv = true;
+		}
+		if($("#identifyInfoDivSetProduct input:eq(0)").val() == '') {
+			$("#identifyInfoDivspinfo").text("*鉴定信息不能为空");
+			$("#identifyInfoDivSetProduct").focus();
+			_identifyInfoDiv = false;
+		} else {
+			$("#identifyInfoDivspinfo").text("");
+			_identifyInfoDiv = true;
+		}
+		var flat = App.isRealNameNull();
+		if(_productId & _productName & _password & _status & _productWeight & _certificateName & _certificateWeight & _certificateSource & _appraiserDiv & _identifyInfoDiv) {
+			App.producerSetProductInfo();
+		}
+	},
+	producerSetProductInfo: function() {
+		var _product_id = $("#productIdInputSetProduct").val();
+		var _product_name = $("#productNameInputSetProduct").val();
+		var _product_password = 'password' + $("#passwordInputSetProduct").val();
+		var _product_class = $("#classSelectSetProduct").val();
+		var _product_status = $("#statusInputSetProduct").val();
+		var _product_grade = $("#gradeSelectSetProduct").val();
+		var _product_weight = 'weight' + $("#productWeightSetProduct").val();
+		var _product_certificate_name = $("#certificateNameSetProduct").val();
+		var _product_certificate_weight = 'weight' + $("#certificateWeightSetProduct").val();
+		var _product_certificate_source = $("#certificateSourceSetProduct").val();
+		var nowdate = new Date();
+		var _product_appraiser = new Array();
+		var _product_identify_info = new Array();
+		var _product_time = nowdate.getFullYear() + "-" + (nowdate.getMonth() + 1) + "-" + nowdate.getDate() +
+			" " + nowdate.getHours() + ":" + nowdate.getMinutes() + ":" + nowdate.getSeconds();
+		_product_id = 'id' + _product_id;
+		for(var i = 0; i < $("#appraiserDivSetProduct").children().length - 1; i++) {
+			_product_appraiser[i] = $("#appraiserDivSetProduct input:eq(" + i + ")").val();
+		}
+		for(var i = 0; i < $("#identifyInfoDivSetProduct").children().length - 1; i++) {
+			_product_identify_info[i] = $("#identifyInfoDivSetProduct input:eq(" + i + ")").val();
+		}
+		deployedAscend.GetAllObjectInfo.call(function(error, returnvalue) {
 			if(error) {
 				console.error(error);
 				return;
@@ -1026,247 +1005,484 @@ window.App = {
 			if(index < 0) {
 				return;
 			}
-			console.log(returnvalue);
-			var div = document.getElementById("roleinfo");
-			var table = document.createElement('table');
-			var tr1 = document.createElement('tr');
-			var tr2 = document.createElement('tr');
-			var th1 = document.createElement('th');
-			var th2 = document.createElement('th');
-			var td1 = document.createElement('td');
-			var td2 = document.createElement('td');
-			var _name = document.createTextNode(web3.toAscii(returnvalue[1]).replace(/\0/g, ''));
-			var _need_role = document.createTextNode(App.checkRole(returnvalue[0].toString()));
-			var th1_info = document.createTextNode("姓名：");
-			var th2_info = document.createTextNode("指定身份：");
-			th1.appendChild(th1_info);
-			th2.appendChild(th2_info);
-			td1.appendChild(_name);
-			td2.appendChild(_need_role);
-			tr1.appendChild(th1);
-			tr2.appendChild(th2);
-			tr1.appendChild(td1);
-			tr2.appendChild(td2);
-			table.appendChild(tr1);
-			table.appendChild(tr2);
-			div.appendChild(table);
-		});
-	},
-	producerSetProductInfo: function() {
-		App.displayProducer();
-		var _product_id = document.getElementById("productidinput_setproduct").value;
-		var _product_name = document.getElementById("productnameinput_setproduct").value;
-		_product_id = 'id' + _product_id;
-		deployedAscend.ProducerSetProductInfo(_product_id, _product_name, function(error, result) {
-			if(error) {
-				console.error(error);
-				return;
+			for(var i = 0; i < returnvalue[0].length; i++) {
+				if($("#person").html() == web3.toAscii(returnvalue[2][i]).replace(/\0/g, '')) {
+					_count = i;
+					break;
+				}
 			}
-			var SetProductInfoByProducer = deployedAscend.SetProductInfoByProducer();
-			SetProductInfoByProducer.watch(function(error, result) {
-				if(!result) {
-					console.log(result);
+			deployedAscend.GetRealName.call(_count, function(error, returnvalue) {
+				if(error) {
+					console.error(error);
+					return;
+				}
+				var index = returnvalue[0] - 1;
+				if(index < 0) {
+					alert("你还没实名认证，无法录入产品信息！请先进行实名认证！");
 				} else {
-					console.log(error);
+					deployedAscend.ProducerSetProductInfo(_count, _product_id, _product_name, _product_password,
+						_product_class, _product_status, _product_grade, _product_time,function(error, result) {
+							if(error) {
+								console.error(error);
+								return;
+							}
+							var SetProductInfoByProducer = deployedAscend.SetProductInfoByProducer();
+							SetProductInfoByProducer.watch(function(error, result) {
+								if(!result) {
+									console.log(error);
+								} else {
+									console.log(result);
+								}
+							});
+							deployedAscend.ProducerSetProductInfoSecond(_product_weight, _product_certificate_name,
+								_product_certificate_weight, _product_certificate_source, _product_appraiser, 
+								_product_identify_info,function(error, result) {
+									if(error) {
+										console.error(error);
+										return;
+									} else {
+										App.displayProducer();
+										App.getObjectInfo();
+									}
+									var SetProductInfoByProducer = deployedAscend.SetProductInfoByProducerSecond();
+									SetProductInfoByProducer.watch(function(error, result) {
+										if(!result) {
+											console.log(result);
+										} else {
+											console.log(error);
+										}
+									});
+								});
+						});
 				}
 			});
 		});
 	},
 	displayAllProduct: function() {
-		App.displayProduct_Info();
 		var _id = new Array();
 		deployedAscend.DisplayProduct.call(function(error, returnvalue) {
 			if(error) {
 				console.error(error);
 				return;
+			} else {
+				App.displayProduct_Info();
+				$("#productInfo").html("");
 			}
 			var index = returnvalue - 1;
 			if(index < 0) {
 				return;
 			}
-			console.log(returnvalue);
-			var div = document.getElementById("product_info");
 			for(var i = 0; i < returnvalue[0].length; i++) {
-				var table = document.createElement('table');
-				var tr1 = document.createElement('tr');
-				var tr2 = document.createElement('tr');
-				var tr3 = document.createElement('tr');
-				var tr4 = document.createElement('tr');
-				var tr5 = document.createElement('tr');
-				var tr6 = document.createElement('tr');
-				var th1 = document.createElement('th');
-				var th2 = document.createElement('th');
-				var th3 = document.createElement('th');
-				var th4 = document.createElement('th');
-				var th5 = document.createElement('th');
-				var th6 = document.createElement('th');
-				var td1 = document.createElement('td');
-				var td2 = document.createElement('td');
-				var td3 = document.createElement('td');
-				var td4 = document.createElement('td');
-				var td5 = document.createElement('td');
-				var _product_count = document.createTextNode(returnvalue[0][i]);
-				var _product_id = document.createTextNode(web3.toAscii(returnvalue[1][i]).replace(/\0/g, ''));
-				var _product_name = document.createTextNode(web3.toAscii(returnvalue[2][i]).replace(/\0/g, ''));
-				var _producer_name = document.createTextNode(web3.toAscii(returnvalue[3][i]).replace(/\0/g, ''));
-				var _producer_address = document.createTextNode(returnvalue[4][i]);
-				var th1_info = document.createTextNode("产品序号：");
-				var th2_info = document.createTextNode("产品ID：");
-				var th3_info = document.createTextNode("产品名称：");
-				var th4_info = document.createTextNode("生产者姓名：");
-				var th5_info = document.createTextNode("生产者地址：");
-				var th6_info = document.createTextNode("查询详情");
-				th1.appendChild(th1_info);
-				th2.appendChild(th2_info);
-				th3.appendChild(th3_info);
-				th4.appendChild(th4_info);
-				th5.appendChild(th5_info);
-				th6.appendChild(th6_info);
-				th6.style.color = "#22FFFF";
-				th6.id = 'id' + i;
-				th6.onclick = function() {
-					App.getMoreInfo(document.getElementById('id_' + this.id).innerHTML);
+				var table = $("<table class='center-block' style='white-space:nowrap;padding:1%;overflow:auto;border:0.5rem solid #00FF00;color:#00FF00;;margin:1%;border-radius:10px' float='left'></table>");
+				var tr = new Array();
+				var td = new Array();
+				for(var j = 0; j < 7; j++) {
+					tr[j] = $("<tr></tr>");
 				}
-				td1.appendChild(_product_count);
-				td2.appendChild(_product_id);
-				td3.appendChild(_product_name);
-				td4.appendChild(_producer_name);
-				td5.appendChild(_producer_address);
-				td2.id = 'id_id' + i;
-				tr1.appendChild(th1);
-				tr2.appendChild(th2);
-				tr3.appendChild(th3);
-				tr4.appendChild(th4);
-				tr5.appendChild(th5);
-				tr6.appendChild(th6);
-				tr1.appendChild(td1);
-				tr2.appendChild(td2);
-				tr3.appendChild(td3);
-				tr4.appendChild(td4);
-				tr5.appendChild(td5);
-				table.appendChild(tr1);
-				table.appendChild(tr2);
-				table.appendChild(tr3);
-				table.appendChild(tr4);
-				table.appendChild(tr5);
-				table.appendChild(tr6);
-				table.style.float = 'left';
-				table.style.margin = '5%';
-				div.appendChild(table);
+				for(var k = 0; k < 6; k++) {
+					td[k] = $("<td></td>");
+				}
+				var _product_count = returnvalue[0][i].toString();
+				var _product_id = web3.toAscii(returnvalue[1][i]).replace(/\0/g, '');
+				_product_id = _product_id.replace('id', '');
+				var _product_name = web3.toAscii(returnvalue[2][i]).replace(/\0/g, '');
+				var _producer_time = web3.toAscii(returnvalue[4][i]).replace(/\0/g, '');
+				var _producer_name = web3.toAscii(returnvalue[5][i]).replace(/\0/g, '');
+				var _producer_address = returnvalue[6][i];
+				td[0].append(_product_count);
+				td[1].append(_product_id);
+				td[2].append(_product_name);
+				td[3].append(_producer_time);
+				td[4].append(_producer_name);
+				td[5].append(_producer_address);
+				tr[0].append($("<th>产品序号：</th>"));
+				tr[1].append($("<th>产品ID：</th>"));
+				tr[2].append($("<th>产品名称：</th>"));
+				tr[3].append($("<th>产品录入时间：</th>"));
+				tr[4].append($("<th>生产者姓名：</th>"));
+				tr[5].append($("<th>生产者地址：</th>"));
+				tr[6].append($("<th><a class='btn btn-primary' onclick='App.checkInfo(this,false)' href='#'>查询详情</a></th>"));
+				for(var j = 0; j < 6; j++) {
+					tr[j].append(td[j]);
+				}
+				for(var k = 0; k < 7; k++) {
+					table.append(tr[k]);
+				}
+				var div = $("<div class='col-md-6'></div>");
+				div.append(table);
+				$("#productInfo").append(div);
 			}
 		});
 	},
-	///???ALERT: Transaction Error. Exception thrown in contract code.
-	tradesmanSetProductInfo: function() {
-		App.displayTradesman();
-		var _product_count = document.getElementById("productcountinput_setproducttradesman").value;
-		deployedAscend.TradesmanSetProductInfo(_product_count, function(error, result) {
+	othersSetProductInfoBefore: function(e) {
+		var _password, _newpassword;
+		if($("#passwordInputSetInfoByOthers").val() == '') {
+			$("#passwordOthersspinfo").text("*鉴定信息不能为空");
+			$("#passwordInputSetInfoByOthers").focus();
+			_password = false;
+		} else {
+			$("#passwordOthersspinfo").text("");
+			_password = true;
+		}
+		if($("#newPasswordInputSetInfoByOthers").val() == '') {
+			$("#newPasswordOthersspinfo").text("*鉴定信息不能为空");
+			$("#newPasswordInputSetInfoByOthers").focus();
+			_newpassword = false;
+		} else {
+			$("#newPasswordOthersspinfo").text("");
+			_newpassword = true;
+		}
+		if(_password & _newpassword) {
+			App.othersSetProductInfo(e);
+		}
+	},
+	othersSetProductInfo: function(e) {
+		var _product_count = e;
+		var _product_password = 'password' + $("#passwordInputSetInfoByOthers").val();
+		var _product_newpassword = 'password' + $("#newPasswordInputSetInfoByOthers").val();
+		var nowdate = new Date();
+		var _product_time = nowdate.getFullYear() + "-" + (nowdate.getMonth() + 1) + "-" + nowdate.getDate() +
+			" " + nowdate.getHours() + ":" + nowdate.getMinutes() + ":" + nowdate.getSeconds();
+		var _count;
+		deployedAscend.GetAllObjectInfo.call(function(error, returnvalue) {
 			if(error) {
 				console.error(error);
 				return;
 			}
-			var SetProductInfoByTradesman = deployedAscend.SetProductInfoByTradesman();
-			SetProductInfoByTradesman.watch(function(error, result) {
-				if(!result) {
-					console.log(result);
-				} else {
-					console.log(error);
+			var index = returnvalue - 1;
+			if(index < 0) {
+				return;
+			}
+			for(var i = 0; i < returnvalue[0].length; i++) {
+				if($("#person").html() == web3.toAscii(returnvalue[2][i]).replace(/\0/g, '')) {
+					_count = i;
+					break;
 				}
+			}
+			deployedAscend.GetRealName.call(_count, function(error, returnvalue) {
+				if(error) {
+					console.error(error);
+					return;
+				}
+				var index = returnvalue[0] - 1;
+				if(index < 0) {
+					alert("你还没实名认证，无法进行产品信息修改！请先进行实名认证！");
+				} else {
+					deployedAscend.GetObjectInfo.call(_count, function(error, result) {
+						switch(result[3].toString()) {
+							case '0':
+								$("#person").attr("onclick", "App.displayProducer();");
+								App.displayProducer();
+								App.getObjectInfo();
+								break;
+							case '1':
+								$("#person").attr("onclick", "App.displayOthers();");
+								App.displayOthers();
+								App.getObjectInfo();
+								break;
+							case '2':
+								$("#person").attr("onclick", "App.displayOthers();");
+								App.displayOthers();
+								App.getObjectInfo();
+								break;
+							case '3':
+								$("#person").attr("onclick", "App.displayTheperson();");
+								App.displayTheperson();
+								App.getObjectInfo();
+								break;
+							default:
+								break;
+						}
+						deployedAscend.JudgeProduct.call(_count, _product_count, function(error, result) {
+							if(error) {
+								console.error(error);
+								return;
+							}
+							var index = returnvalue - 1;
+							if(index < 0) {
+								return;
+							}
+							if(result == false) {
+								console.log(_product_time);
+								deployedAscend.OthersSetProductInfo(_count, _product_count, _product_time, _product_password, _product_newpassword, function(error, result) {
+									if(error) {
+										console.error(error);
+										alert("你输入的密码不正确！");
+										return;
+									}
+									var SetProductInfoByOthers = deployedAscend.SetProductInfoByOthers();
+									SetProductInfoByOthers.watch(function(error, result) {
+										if(!result) {
+											console.log(result);
+										} else {
+											console.log(error);
+										}
+									});
+								});
+							} else {
+								alert("您已拥有此产品！");
+							}
+						});
+					});
+				}
+			});
+
+		});
+	},
+	getOwnProduct: function() {
+		App.displayPersonProductInfo();
+		var _email;
+		deployedAscend.GetAllObjectInfo.call(function(error, returnvalue) {
+			if(error) {
+				console.error(error);
+				return;
+			}
+			var index = returnvalue - 1;
+			if(index < 0) {
+				return;
+			}
+			for(var i = 0; i < returnvalue[0].length; i++) {
+				if($("#person").html() == web3.toAscii(returnvalue[2][i]).replace(/\0/g, '')) {
+					_email = returnvalue[3][i];
+					break;
+				}
+			}
+			deployedAscend.GetProductCount.call(function(error, returnvalue) {
+				if(error) {
+					console.error(error);
+					return;
+				}
+				var index = returnvalue - 1;
+				if(index < 0) {
+					return;
+				}
+				for(var i = 0; i < returnvalue.toString(); i++) {
+					App.getOwnProductLast(i, _email);
+				}
+				alert("搜索完毕");
 			});
 		});
 	},
+	getOwnProductLast: function(i, _email) {
+		deployedAscend.GetOwnProduct.call(i, _email, function(error, returnvalue) {
+			if(error) {
+				console.error(error);
+				return;
+			}
+			var index = returnvalue - 1;
+			if(index < 0) {
+				return;
+			}
+			if(returnvalue == true) {
+				deployedAscend.DisplayOwnProduct.call(i, function(error, returnvalue) {
+					if(error) {
+						console.error(error);
+						return;
+					}
+					var index = returnvalue - 1;
+					if(index < 0) {
+						return;
+					}
+					var table = $("<table class='center-block' style='white-space:nowrap;padding:1%;overflow:auto;border:0.5rem solid #00FF00;color:#00FF00;;margin:1%;border-radius:10px' float='left'></table>");
+					var tr = new Array();
+					var td = new Array();
+					for(var i = 0; i < 6; i++) {
+						tr[i] = $("<tr></tr>");
+					}
+					for(var i = 0; i < 5; i++) {
+						td[i] = $("<td></td>");
+					}
+					var _product_count = returnvalue[0].toString();
+					var _product_id = web3.toAscii(returnvalue[1]).replace(/\0/g, '');
+					_product_id = _product_id.replace('id', '');
+					var _product_name = web3.toAscii(returnvalue[2]).replace(/\0/g, '');
+					var _product_class = App.checkClass(returnvalue[3].toString());
+					var _producer_name = web3.toAscii(returnvalue[4]).replace(/\0/g, '');
+					td[0].append(_product_count);
+					td[1].append(_product_id);
+					td[2].append(_product_name);
+					td[3].append(_product_class);
+					td[4].append(_producer_name);
+					tr[0].append($("<th>产品序号：</th>"));
+					tr[1].append($("<th>产品ID：</th>"));
+					tr[2].append($("<th>产品名称：</th>"));
+					tr[3].append($("<th>产品类别：</th>"));
+					tr[4].append($("<th>生产者姓名：</th>"));
+					tr[5].append($("<th><a class='btn btn-primary' onclick='App.checkInfo(this,false)' href='#'>查询详情</a></th>"));
+					for(var i = 0; i < 5; i++) {
+						tr[i].append(td[i]);
+					}
+					for(var i = 0; i < 6; i++) {
+						table.append(tr[i]);
+					}
+					var div = $("<div class='col-md-4'></div>");
+					div.append(table);
+					$("#personProductInfo").append(div);
+				});
+			}
+		});
+	},
+	getOwnProductHaving: function() {
+		App.displayPersonProductInfo();
+		var _email;
+		deployedAscend.GetAllObjectInfo.call(function(error, returnvalue) {
+			if(error) {
+				console.error(error);
+				return;
+			}
+			var index = returnvalue - 1;
+			if(index < 0) {
+				return;
+			}
+			for(var i = 0; i < returnvalue[0].length; i++) {
+				if($("#person").html() == web3.toAscii(returnvalue[2][i]).replace(/\0/g, '')) {
+					_email = returnvalue[3][i];
+					break;
+				}
+			}
+			deployedAscend.GetProductCount.call(function(error, returnvalue) {
+				if(error) {
+					console.error(error);
+					return;
+				}
+				var index = returnvalue - 1;
+				if(index < 0) {
+					return;
+				}
+				for(var i = 0; i < returnvalue; i++) {
+					App.getOwnProductHavingLast(i, _email);
+				}
+				alert("搜索完毕");
+			});
+		});
+	},
+	getOwnProductHavingLast: function(i, _email) {
+		deployedAscend.GetOwnProductHaving.call(i, _email, function(error, returnvalue) {
+			if(error) {
+				console.error(error);
+				return;
+			}
+			var index = returnvalue - 1;
+			if(index < 0) {
+				return;
+			}
+			if(returnvalue == true) {
+				deployedAscend.DisplayOwnProduct.call(i, function(error, returnvalue) {
+					if(error) {
+						console.error(error);
+						return;
+					}
+					var index = returnvalue - 1;
+					if(index < 0) {
+						return;
+					}
+					var table = $("<table class='center-block' style='white-space:nowrap;padding:1%;overflow:auto;border:0.5rem solid #00FF00;color:#00FF00;;margin:1%;border-radius:10px' float='left'></table>");
+					var tr = new Array();
+					var td = new Array();
+					for(var i = 0; i < 6; i++) {
+						tr[i] = $("<tr></tr>");
+					}
+					for(var i = 0; i < 5; i++) {
+						td[i] = $("<td></td>");
+					}
+					var _product_count = returnvalue[0].toString();
+					var _product_id = web3.toAscii(returnvalue[1]).replace(/\0/g, '');
+					_product_id = _product_id.replace('id', '');
+					var _product_name = web3.toAscii(returnvalue[2]).replace(/\0/g, '');
+					var _product_class = App.checkClass(returnvalue[3].toString());
+					var _producer_name = web3.toAscii(returnvalue[4]).replace(/\0/g, '');
+					td[0].append(_product_count);
+					td[1].append(_product_id);
+					td[2].append(_product_name);
+					td[3].append(_product_class);
+					td[4].append(_producer_name);
+					tr[0].append($("<th>产品序号：</th>"));
+					tr[1].append($("<th>产品ID：</th>"));
+					tr[2].append($("<th>产品名称：</th>"));
+					tr[3].append($("<th>产品类别：</th>"));
+					tr[4].append($("<th>生产者姓名：</th>"));
+					tr[5].append($("<th><a class='btn btn-primary' onclick='App.checkInfo(this,true)' href='#'>查询详情</a></th>"));
+					for(var i = 0; i < 5; i++) {
+						tr[i].append(td[i]);
+					}
+					for(var i = 0; i < 6; i++) {
+						table.append(tr[i]);
+					}
+					var div = $("<div class='col-md-4'></div>");
+					div.append(table);
+					$("#personProductInfo").append(div);
+				});
+			}
+		});
+	},
 	chooseID: function() {
-		var btn = document.getElementById("ascendproduct");
-		var inp = document.getElementById("searchproduct");
-		btn.onclick = function() {
-			App.findById();
-		};
-		inp.placeholder = "请输入追溯码";
+		$("#ascendProduct").attr("onclick", "App.findById();");
+		$("#searchProduct").attr("placeholder", "请输入追溯码");
 	},
 	chooseNAME: function() {
-		var btn = document.getElementById("ascendproduct");
-		var inp = document.getElementById("searchproduct");
-		btn.onclick = function() {
-			App.findName(0);
-		};
-		inp.placeholder = "请输入产品名称";
+		$("#ascendProduct").attr("onclick", "App.findName();");
+		$("#searchProduct").attr("placeholder", "请输入产品名称");
 	},
-	chooseDIVID: function() {
-		var btn = document.getElementById("ascendproduct");
-		var inp = document.getElementById("searchproduct");
-		btn.onclick = function() {
-			App.findByDivid();
-		};
-		inp.placeholder = "请输入产品所属分类";
+	chooseCLASS: function() {
+		$("#ascendProduct").attr("onclick", "App.findClass();");
+		$("#searchProduct").attr("placeholder", "请输入产品所属分类");
 	},
 	findById: function() {
-		App.displayProduct_Search();
-		var _product_id = document.getElementById("searchproduct").value;
+		var _product_id = 'id' + $("#searchProduct").val();
 		deployedAscend.FindById.call(_product_id, function(error, returnvalue) {
-			var div = document.getElementById("productsearch");
 			if(error) {
 				console.error(error);
 				alert("不存在该产品");
 				return;
+			} else {
+				App.displayProduct_Info();
+				$("#productInfo").html("");
 			}
 			var index = returnvalue - 1;
 			if(index < 0) {
 				return;
 			}
-			console.log(returnvalue);
-			var table = document.createElement('table');
-			var tr1 = document.createElement('tr');
-			var tr2 = document.createElement('tr');
-			var tr3 = document.createElement('tr');
-			var tr4 = document.createElement('tr');
-			var tr5 = document.createElement('tr');
-			var th1 = document.createElement('th');
-			var th2 = document.createElement('th');
-			var th3 = document.createElement('th');
-			var th4 = document.createElement('th');
-			var th5 = document.createElement('th');
-			var td1 = document.createElement('td');
-			var td2 = document.createElement('td');
-			var td3 = document.createElement('td');
-			var td4 = document.createElement('td');
-			var td5 = document.createElement('td');
-			var _product_id = document.createTextNode(web3.toAscii(returnvalue[0]).replace(/\0/g, ''));
-			var _product_name = document.createTextNode(web3.toAscii(returnvalue[1]).replace(/\0/g, ''));
-			var _producer_name = document.createTextNode(web3.toAscii(returnvalue[2]).replace(/\0/g, ''));
-			var _producer_address = document.createTextNode(returnvalue[3]);
-			var th1_info = document.createTextNode("产品ID：");
-			var th2_info = document.createTextNode("产品名称：");
-			var th3_info = document.createTextNode("生产者姓名：");
-			var th4_info = document.createTextNode("生产者地址：");
-			th1.appendChild(th1_info);
-			th2.appendChild(th2_info);
-			th3.appendChild(th3_info);
-			th4.appendChild(th4_info);
-			td1.appendChild(_product_id);
-			td2.appendChild(_product_name);
-			td3.appendChild(_producer_name);
-			td4.appendChild(_producer_address);
-			tr1.appendChild(th1);
-			tr2.appendChild(th2);
-			tr3.appendChild(th3);
-			tr4.appendChild(th4);
-			tr1.appendChild(td1);
-			tr2.appendChild(td2);
-			tr3.appendChild(td3);
-			tr4.appendChild(td4);
-			table.appendChild(tr1);
-			table.appendChild(tr2);
-			table.appendChild(tr3);
-			table.appendChild(tr4);
-			div.appendChild(table);
+			var table = $("<table class='center-block' style='white-space:nowrap;padding:1%;overflow:auto;border:0.5rem solid #00FF00;color:#00FF00;;margin:1%;border-radius:10px' float='left'></table>");
+			var tr = new Array();
+			var td = new Array();
+			for(var i = 0; i < 6; i++) {
+				tr[i] = $("<tr></tr>");
+			}
+			for(var i = 0; i < 5; i++) {
+				td[i] = $("<td></td>");
+			}
+			var _product_count = returnvalue[0].toString();
+			var _product_id = web3.toAscii(returnvalue[1]).replace(/\0/g, '');
+			_product_id = _product_id.replace('id', '');
+			var _product_name = web3.toAscii(returnvalue[2]).replace(/\0/g, '');
+			var _product_class = App.checkClass(returnvalue[3].toString());
+			var _producer_name = web3.toAscii(returnvalue[4]).replace(/\0/g, '');
+			td[0].append(_product_count);
+			td[1].append(_product_id);
+			td[2].append(_product_name);
+			td[3].append(_product_class);
+			td[4].append(_producer_name);
+			tr[0].append($("<th>产品序号：</th>"));
+			tr[1].append($("<th>产品ID：</th>"));
+			tr[2].append($("<th>产品名称：</th>"));
+			tr[3].append($("<th>产品类别：</th>"));
+			tr[4].append($("<th>生产者姓名：</th>"));
+			tr[5].append($("<th><a class='btn btn-primary' onclick='App.checkInfo(this)' href='#'>查询详情</a></th>"));
+			for(var i = 0; i < 5; i++) {
+				tr[i].append(td[i]);
+			}
+			for(var i = 0; i < 6; i++) {
+				table.append(tr[i]);
+			}
+			var div = $("<div></div>");
+			div.append(table);
+			$("#productInfo").append(div);
 		});
 	},
-	findName: function(_count) {
-		App.displayProduct_Search();
-		var _product_name = document.getElementById("searchproduct").value;
+	findName: function() {
+		var _product_name = $("#searchProduct").val();
 		deployedAscend.GetProductCount.call(function(error, returnvalue) {
 			if(error) {
-				alert("搜索完毕");
 				console.error(error);
 				return;
 			}
@@ -1281,9 +1497,59 @@ window.App = {
 	},
 	findByName: function(_count, _product_name) {
 		deployedAscend.FindByName.call(_count, _product_name, function(error, returnvalue) {
-			var div = document.getElementById("productsearch");
 			if(error) {
-				alert("搜索完毕");
+				alert("不存在该产品");
+				console.error(error);
+				return;
+			} else {
+				App.displayProduct_Info();
+				$("#productInfo").html("");
+			}
+			var index = returnvalue - 1;
+			if(index < 0) {
+				return;
+			}
+			var table = $("<table class='center-block' style='white-space:nowrap;padding:1%;overflow:auto;border:0.5rem solid #00FF00;color:#00FF00;;margin:1%;border-radius:10px' float='left'></table>");
+			var tr = new Array();
+			var td = new Array();
+			for(var i = 0; i < 6; i++) {
+				tr[i] = $("<tr></tr>");
+			}
+			for(var i = 0; i < 5; i++) {
+				td[i] = $("<td></td>");
+			}
+			var _product_count = returnvalue[0].toString();
+			var _product_id = web3.toAscii(returnvalue[1]).replace(/\0/g, '');
+			_product_id = _product_id.replace('id', '');
+			var _product_name = web3.toAscii(returnvalue[2]).replace(/\0/g, '');
+			var _product_class = App.checkClass(returnvalue[3].toString());
+			var _producer_name = web3.toAscii(returnvalue[4]).replace(/\0/g, '');
+			td[0].append(_product_count);
+			td[1].append(_product_id);
+			td[2].append(_product_name);
+			td[3].append(_product_class);
+			td[4].append(_producer_name);
+			tr[0].append($("<th>产品序号：</th>"));
+			tr[1].append($("<th>产品ID：</th>"));
+			tr[2].append($("<th>产品名称：</th>"));
+			tr[3].append($("<th>产品类别：</th>"));
+			tr[4].append($("<th>生产者姓名：</th>"));
+			tr[5].append($("<th><a class='btn btn-primary' onclick='App.checkInfo(this)' href='#'>查询详情</a></th>"));
+			for(var i = 0; i < 5; i++) {
+				tr[i].append(td[i]);
+			}
+			for(var i = 0; i < 6; i++) {
+				table.append(tr[i]);
+			}
+			var div = $("<div></div>");
+			div.append(table);
+			$("#productInfo").append(div);
+		});
+	},
+	findClass: function() {
+		var _product_class = $("#searchProduct").val();
+		deployedAscend.GetProductCount.call(function(error, returnvalue) {
+			if(error) {
 				console.error(error);
 				return;
 			}
@@ -1291,65 +1557,65 @@ window.App = {
 			if(index < 0) {
 				return;
 			}
-			console.log(returnvalue);
-			var table = document.createElement('table');
-			var tr1 = document.createElement('tr');
-			var tr2 = document.createElement('tr');
-			var tr3 = document.createElement('tr');
-			var tr4 = document.createElement('tr');
-			var tr5 = document.createElement('tr');
-			var tr6 = document.createElement('tr');
-			var th1 = document.createElement('th');
-			var th2 = document.createElement('th');
-			var th3 = document.createElement('th');
-			var th4 = document.createElement('th');
-			var th5 = document.createElement('th');
-			var th6 = document.createElement('th');
-			var td1 = document.createElement('td');
-			var td2 = document.createElement('td');
-			var td3 = document.createElement('td');
-			var td4 = document.createElement('td');
-			var td5 = document.createElement('td');
-			var _product_id = document.createTextNode(web3.toAscii(returnvalue[1]).replace(/\0/g, ''));
-			var _product_name_node = document.createTextNode(web3.toAscii(returnvalue[2]).replace(/\0/g, ''));
-			var _producer_name = document.createTextNode(web3.toAscii(returnvalue[3]).replace(/\0/g, ''));
-			//var _producer_address = document.createTextNode(returnvalue[3][i]);
-			var th1_info = document.createTextNode("产品ID：");
-			var th2_info = document.createTextNode("产品名称：");
-			var th3_info = document.createTextNode("生产者姓名：");
-			///var th4_info = document.createTextNode("生产者地址：");
-			th1.appendChild(th1_info);
-			th2.appendChild(th2_info);
-			th3.appendChild(th3_info);
-			//th4.appendChild(th4_info);
-			td1.appendChild(_product_id);
-			td2.appendChild(_product_name_node);
-			td3.appendChild(_producer_name);
-			//td4.appendChild(_producer_address);
-			tr1.appendChild(th1);
-			tr2.appendChild(th2);
-			tr3.appendChild(th3);
-			//tr4.appendChild(th4);
-			tr1.appendChild(td1);
-			tr2.appendChild(td2);
-			tr3.appendChild(td3);
-			//tr4.appendChild(td4);
-			table.appendChild(tr1);
-			table.appendChild(tr2);
-			table.appendChild(tr3);
-			//table.appendChild(tr4);
-			div.appendChild(table);
+			for(var i = 0; i < returnvalue; i++) {
+				App.findByClass(i, _product_class);
+			}
 		});
 	},
-	findByDivid: function() {
-		App.displayProduct_Search();
-		var _product_divid = document.getElementById("searchproduct").value;
-		var div = document.getElementById("productsearch");
+	findByClass: function(_count, _product_class) {
+		deployedAscend.FindByClass.call(_count, _product_class, function(error, returnvalue) {
+			if(error) {
+				alert("不存在该产品");
+				console.error(error);
+				return;
+			} else {
+				App.displayProduct_Info();
+				$("#productInfo").html("");
+			}
+			var index = returnvalue - 1;
+			if(index < 0) {
+				return;
+			}
+			var table = $("<table class='center-block' style='white-space:nowrap;padding:1%;overflow:auto;border:0.5rem solid #00FF00;color:#00FF00;;margin:1%;border-radius:10px' float='left'></table>");
+			var tr = new Array();
+			var td = new Array();
+			for(var i = 0; i < 6; i++) {
+				tr[i] = $("<tr></tr>");
+			}
+			for(var i = 0; i < 5; i++) {
+				td[i] = $("<td></td>");
+			}
+			var _product_count = returnvalue[0].toString();
+			var _product_id = web3.toAscii(returnvalue[1]).replace(/\0/g, '');
+			_product_id = _product_id.replace('id', '');
+			var _product_name = web3.toAscii(returnvalue[2]).replace(/\0/g, '');
+			var _product_class = App.checkClass(returnvalue[3].toString());
+			var _producer_name = web3.toAscii(returnvalue[4]).replace(/\0/g, '');
+			td[0].append(_product_count);
+			td[1].append(_product_id);
+			td[2].append(_product_name);
+			td[3].append(_product_class);
+			td[4].append(_producer_name);
+			tr[0].append($("<th>产品序号：</th>"));
+			tr[1].append($("<th>产品ID：</th>"));
+			tr[2].append($("<th>产品名称：</th>"));
+			tr[3].append($("<th>产品类别：</th>"));
+			tr[4].append($("<th>生产者姓名：</th>"));
+			tr[5].append($("<th><a class='btn btn-primary' onclick='App.checkInfo(this)' href='#'>查询详情</a></th>"));
+			for(var i = 0; i < 5; i++) {
+				tr[i].append(td[i]);
+			}
+			for(var i = 0; i < 6; i++) {
+				table.append(tr[i]);
+			}
+			var div = $("<div></div>");
+			div.append(table);
+			$("#productInfo").append(div);
+		});
 	},
-	getMoreInfo: function(_product_id) {
-		App.displayProduct_Search();
+	getMoreInfo: function(_product_id, flag) {
+		var ProductInfo = new Array();
 		deployedAscend.GetMoreInfo.call(_product_id, function(error, returnvalue) {
-			var div = document.getElementById("productsearch");
 			if(error) {
 				console.error(error);
 				alert("不存在该产品");
@@ -1359,103 +1625,415 @@ window.App = {
 			if(index < 0) {
 				return;
 			}
-			console.log(returnvalue);
-			var table = document.createElement('table');
-			var tr1 = document.createElement('tr');
-			var tr2 = document.createElement('tr');
-			var tr3 = document.createElement('tr');
-			var tr4 = document.createElement('tr');
-			var tr5 = document.createElement('tr');
-			var tr6 = document.createElement('tr');
-			var tr7 = document.createElement('tr');
-			var tr8 = document.createElement('tr');
-			var th1 = document.createElement('th');
-			var th2 = document.createElement('th');
-			var th3 = document.createElement('th');
-			var th4 = document.createElement('th');
-			var th5 = document.createElement('th');
-			var th6 = document.createElement('th');
-			var th7 = document.createElement('th');
-			var th8 = document.createElement('th');
-			var td1 = document.createElement('td');
-			var td2 = document.createElement('td');
-			var td3 = document.createElement('td');
-			var td4 = document.createElement('td');
-			var td5 = document.createElement('td');
-			var td6 = document.createElement('td');
-			var td7 = document.createElement('td');
-			var td8 = document.createElement('td');
-			var _product_id = document.createTextNode(web3.toAscii(returnvalue[0]).replace(/\0/g, ''));
-			var _product_name = document.createTextNode(web3.toAscii(returnvalue[1]).replace(/\0/g, ''));
-			var _producer_name = document.createTextNode(web3.toAscii(returnvalue[2]).replace(/\0/g, ''));
-			var _producer_address = document.createTextNode(returnvalue[3]);
-			var _owner_name = web3.toAscii(returnvalue[4][0]).toString().replace(/\0/g, '') + '(' + App.checkRole(returnvalue[5][0].toString()) + ')';
-			for(var i = 1; i <= returnvalue[7]; i++) {
-				_owner_name = _owner_name + '>>>' + web3.toAscii(returnvalue[4][i]).toString().replace(/\0/g, '') + '(' + App.checkRole(returnvalue[5][i].toString()) + ')';
-			}
-			var _owner_info = document.createTextNode(_owner_name);
-			var _owner_address_info = returnvalue[6][0].toString() + '(' + App.checkRole(returnvalue[5][0].toString()) + ')';
-			for(var i = 1; i <= returnvalue[7]; i++) {
-				_owner_address_info = _owner_address_info + '\r\n' + '>>>' + returnvalue[6][i].toString() + '(' + App.checkRole(returnvalue[5][i].toString()) + ')';
-			}
-			var _owner_address = document.createTextNode(_owner_address_info);
-			var _owner_count = document.createTextNode(returnvalue[7]);
-			var backup = document.createTextNode("返回");
-			var th1_info = document.createTextNode("产品ID：");
-			var th2_info = document.createTextNode("产品名称：");
-			var th3_info = document.createTextNode("生产者姓名：");
-			var th4_info = document.createTextNode("生产者地址：");
-			var th5_info = document.createTextNode("交易者信息：");
-			var th6_info = document.createTextNode("交易者地址：");
-			var th7_info = document.createTextNode("交易次数：");
-			var th8_info = document.createTextNode("购买");
-			th1.appendChild(th1_info);
-			th2.appendChild(th2_info);
-			th3.appendChild(th3_info);
-			th4.appendChild(th4_info);
-			th5.appendChild(th5_info);
-			th6.appendChild(th6_info);
-			th7.appendChild(th7_info);
-			th8.appendChild(th8_info);
-			th8.onclick = function() {
-				App.displayBuyProduct();
-			}
-			td1.appendChild(_product_id);
-			td2.appendChild(_product_name);
-			td3.appendChild(_producer_name);
-			td4.appendChild(_producer_address);
-			td5.appendChild(_owner_info);
-			td6.appendChild(_owner_address);
-			td7.appendChild(_owner_count);
-			td8.appendChild(backup);
-			tr1.appendChild(th1);
-			tr2.appendChild(th2);
-			tr3.appendChild(th3);
-			tr4.appendChild(th4);
-			tr5.appendChild(th5);
-			tr6.appendChild(th6);
-			tr7.appendChild(th7);
-			tr8.appendChild(th8);
-			tr1.appendChild(td1);
-			tr2.appendChild(td2);
-			tr3.appendChild(td3);
-			tr4.appendChild(td4);
-			tr5.appendChild(td5);
-			tr6.appendChild(td6);
-			tr7.appendChild(td7);
-			tr8.appendChild(td8);
-			table.appendChild(tr1);
-			table.appendChild(tr2);
-			table.appendChild(tr3);
-			table.appendChild(tr4);
-			table.appendChild(tr5);
-			table.appendChild(tr6);
-			table.appendChild(tr7);
-			table.appendChild(tr8);
-			div.appendChild(table);
+			ProductInfo = returnvalue;
 		});
+		deployedAscend.GetMoreInfoSecond.call(_product_id, function(error, returnvalue) {
+			if(error) {
+				console.error(error);
+				alert("不存在该产品");
+				return;
+			}
+			var index = returnvalue - 1;
+			if(index < 0) {
+				return;
+			}
+			for(var i = 0; i < 9; i++) {
+				ProductInfo[13 + i] = returnvalue[i];
+			}
+		});
+		deployedAscend.GetMoreInfoThird.call(_product_id, function(error, returnvalue) {
+			if(error) {
+				console.error(error);
+				alert("不存在该产品");
+				return;
+			}
+			var index = returnvalue - 1;
+			if(index < 0) {
+				return;
+			}
+			ProductInfo[22] = returnvalue;
+			App.displayMoreInfo(ProductInfo, flag);
+		});
+	},
+	displayMoreInfo: function(_ProductInfo, flag = false) {
+		App.displayProduct_MoreInfo();
+		var table1 = $("<table width='100%'><tr></tr></table>");
+		var table2 = $("<table width='100%'><tr></tr></table>");
+		var table3 = $("<table width='100%'><tr></tr></table>");
+		var table4 = $("<table width='100%'><tr></tr></table>");
+		var table5 = $("<table width='100%'><tr></tr></table>");
+		var table6 = $("<table width='100%'><tr></tr></table>");
+		var _product_count = _ProductInfo[0].toString();
+		var _product_id = web3.toAscii(_ProductInfo[1]).replace(/\0/g, '');
+		_product_id = _product_id.replace('id', '');
+		var _product_name = web3.toAscii(_ProductInfo[2]).replace(/\0/g, '');
+		var _product_class = App.checkClass(_ProductInfo[3].toString());
+		var _producer_name = web3.toAscii(_ProductInfo[4]).replace(/\0/g, '');
+		var _producer_address = _ProductInfo[5].toString();
+		var _product_status = web3.toAscii(_ProductInfo[7]).replace(/\0/g, '');
+		console.log(_ProductInfo[3].toString());
+		console.log(_ProductInfo[8].toString());
+		var _producer_grade = App.checkGrade(_ProductInfo[8].toString());
+		var _product_weight = web3.toAscii(_ProductInfo[9]).replace(/\0/g, '');
+		_product_weight = _product_weight.replace('weight', '');
+		var _product_certificate_name = web3.toAscii(_ProductInfo[10]).replace(/\0/g, '');
+		var _product_certificate_weight = web3.toAscii(_ProductInfo[11]).replace(/\0/g, '');
+		_product_certificate_weight = _product_certificate_weight.replace('weight', '');
+		var _product_certificate_source = web3.toAscii(_ProductInfo[12]).replace(/\0/g, '');
+		var _producer_appraiser_count = _ProductInfo[13].toString();
+		var _producer_identify_info_count = _ProductInfo[14].toString();
+		var _product_appraiser = new Array();
+		for(var i = 0; i < _ProductInfo[13]; i++) {
+			var width = 100 / _ProductInfo[13] + '%';
+			_product_appraiser[i] = web3.toAscii(_ProductInfo[15][i]).replace(/\0/g, '');
+			table1.children().find("tr").append("<td width='" + width + "'>" + _product_appraiser[i] + "</td>");
+		}
+		var _product_identify_info = new Array();
+		for(var i = 0; i < _ProductInfo[14]; i++) {
+			var width = 100 / _ProductInfo[13] + '%';
+			_product_identify_info[i] = web3.toAscii(_ProductInfo[16][i]).replace(/\0/g, '');
+			table2.children().find("tr").append("<td width='" + width + "'>" + _product_identify_info[i] + "</td>");
+		}
+		var _owner_name = new Array();
+		var _owner = new Array();
+		for(var i = 0; i < _ProductInfo[21]; i++) {
+			_owner[i] = App.checkRole(_ProductInfo[19][i].toString());
+		}
+		for(var i = 0; i < _ProductInfo[21]; i++) {
+			var width = 100 / _ProductInfo[13] + '%';
+			_owner_name[i] = web3.toAscii(_ProductInfo[17][i]).toString().replace(/\0/g, '') + '(' + _owner[i] + ')';
+			if(i < _ProductInfo[21] - 1) {
+				_owner_name[i] += "<span style='color:#22FFFF'>" + '&#8195&#8195&#8195&#8195&#8195======>' + '</span>';
+			}
+			table3.children().find("tr").append("<td width='" + width + "'>" + _owner_name[i] + "</td>");
+		}
+		var _owner_email = new Array();
+		for(var i = 0; i < _ProductInfo[21]; i++) {
+			var width = 100 / _ProductInfo[13] + '%';
+			_owner_email[i] = web3.toAscii(_ProductInfo[18][i]).toString().replace(/\0/g, '') + '(' + _owner[i] + ')';
+			if(i < _ProductInfo[21] - 1) {
+				_owner_email[i] += "<span style='color:#22FFFF'>" + '&#8195&#8195&#8195&#8195&#8195======>' + '</span>';
+			}
+			table4.children().find("tr").append("<td width='" + width + "'>" + _owner_email[i] + "</td>");
+		}
+		var _product_time = new Array();
+		console.log(_ProductInfo[6]);
+		for(var i = 0; i < _ProductInfo[6].length; i++) {
+			var width = 100 / _ProductInfo[13] + '%';
+			_product_time[i] = web3.toAscii(_ProductInfo[6][i]).replace(/\0/g, '');
+			if(i < _ProductInfo[21] - 1) {
+				_product_time[i] += "<span style='color:#22FFFF'>" + '&#8195&#8195&#8195&#8195&#8195======>' + '</span>';
+			}
+			table5.children().find("tr").append("<td width='" + width + "'>" + _product_time[i] + "</td>");
+		}
+		var _owner_address_info = new Array();
+		for(var i = 0; i < _ProductInfo[20].length; i++) {
+			var width = 100 / _ProductInfo[13] + '%';
+			_owner_address_info[i] = _ProductInfo[20][i] + '(' + App.checkRole(_owner) + ')';
+			if(i < _ProductInfo[21] - 1) {
+				_owner_address_info[i] += "<span style='color:#22FFFF'>" + '&#8195&#8195&#8195&#8195&#8195======>' + '</span>';
+			}
+			table6.children().find("tr").append("<td width='" + width + "'>" + _owner_address_info[i] + "</td>");
+		}
+		var _owner_count = _ProductInfo[21].toString();
+		var _product_password;
+		console.log(_ProductInfo[22]);
+		if(flag) {
+			_product_password = web3.toAscii(_ProductInfo[22]).toString().replace(/\0/g, '').replace('password', '');
+		} else {
+			_product_password = "抱歉，此处无权查看！如果你是产品所有者，请转到个人中心的所拥有产品页面查看！";
+		}
+		var table = $("<table class='center-block' style='white-space:nowrap;padding:1%;overflow:auto;border:0.5rem solid #00FF00;color:#00FF00;margin:1%;border-radius:10px' float='left'></table>");
+		var tr = new Array();
+		var td = new Array();
+		for(var i = 0; i < 23; i++) {
+			tr[i] = $("<tr></tr>");
+			if(i < 22) {
+				td[i] = $("<td></td>");
+			}
+		}
+		td[0].append(_product_count);
+		td[1].append(_product_id);
+		td[2].append(_product_name);
+		td[3].append(_product_class);
+		td[4].append(_producer_name);
+		td[5].append(_producer_address);
+		td[6].append(_product_status);
+		td[7].append(_producer_grade);
+		td[8].append(_product_weight);
+		td[9].append(_product_certificate_name);
+		td[10].append(_product_certificate_weight);
+		td[11].append(_product_certificate_source);
+		td[12].append(_producer_appraiser_count);
+		td[13].append(_producer_identify_info_count);
+		td[14].append(table1);
+		td[15].append(table2);
+		td[16].append(table3);
+		td[17].append(table4);
+		td[18].append(table5);
+		td[19].append(table6);
+		td[20].append(_owner_count);
+		td[21].append(_product_password);
+		tr[0].append($("<th>产品序号：</th>"));
+		tr[1].append($("<th>产品ID：</th>"));
+		tr[2].append($("<th>产品名称：</th>"));
+		tr[3].append($("<th>产品类别：</th>"));
+		tr[4].append($("<th>生产者姓名：</th>"));
+		tr[5].append($("<th>生产者地址：</th>"));
+		tr[6].append($("<th>产品状况：</th>"));
+		tr[7].append($("<th>产品质量等级：</th>"));
+		tr[8].append($("<th>产品重量：</th>"));
+		tr[9].append($("<th>鉴定证书名称：</th>"));
+		tr[10].append($("<th>鉴定证书重量：</th>"));
+		tr[11].append($("<th>鉴定机构：</th>"));
+		tr[12].append($("<th>鉴定人员数量：</th>"));
+		tr[13].append($("<th>鉴定信息数量：</th>"));
+		tr[14].append($("<th>鉴定人员：</th>"));
+		tr[15].append($("<th>鉴定信息：</th>"));
+		tr[16].append($("<th>交易者姓名：</th>"));
+		tr[17].append($("<th>交易者邮箱：</th>"));
+		tr[18].append($("<th>产品录入及交易时间：</th>"));
+		tr[19].append($("<th>交易者地址：</th>"));
+		tr[20].append($("<th>交易次数：</th>"));
+		tr[21].append($("<th>产品信息修改密码：</th>"));
+		tr[22].append($("<th><a class='btn btn-primary' onclick='App.displayBuyProduct(" + _product_count + ")' href='#'>购买</a></th>"));
+		tr[22].append($("<th><a class='btn btn-primary' href='#' onclick='App.displayProduct_Info()'>返回</a></th>"));
+		for(var i = 0; i < 22; i++) {
+			tr[i].append(td[i]);
+		}
+		for(var i = 0; i < 23; i++) {
+			table.append(tr[i]);
+		}
+		var div = $("<div></div>");
+		div.append(table);
+		$("#productMoreInfo").append(div);
 	}
 };
+
+var vcity = {
+	11: "北京",
+	12: "天津",
+	13: "河北",
+	14: "山西",
+	15: "内蒙古",
+	21: "辽宁",
+	22: "吉林",
+	23: "黑龙江",
+	31: "上海",
+	32: "江苏",
+	33: "浙江",
+	34: "安徽",
+	35: "福建",
+	36: "江西",
+	37: "山东",
+	41: "河南",
+	42: "湖北",
+	43: "湖南",
+	44: "广东",
+	45: "广西",
+	46: "海南",
+	50: "重庆",
+	51: "四川",
+	52: "贵州",
+	53: "云南",
+	54: "西藏",
+	61: "陕西",
+	62: "甘肃",
+	63: "青海",
+	64: "宁夏",
+	65: "新疆",
+	71: "台湾",
+	81: "香港",
+	82: "澳门",
+	91: "国外"
+};
+
+var gender = {
+	0: "女",
+	1: "男",
+};
+
+checkCard = function() {
+	var truename = document.getElementById("realNameInput").value;
+	var reg = /^[\u4e00-\u9fa5]{2,4}$/i;
+	if(!reg.test(truename)) {
+		alert("请输入真实姓名，只能是2-4个汉字！");
+		document.getElementById('yourname').focus();
+	} else {
+		var card = document.getElementById('realIDInput').value;
+		//是否为空
+		if(card === '') {
+			alert('请输入身份证号，身份证号不能为空');
+			document.getElementById('realIDInput').focus();
+			return false;
+		}
+		//校验长度，类型
+		if(isCardNo(card) === false) {
+			alert('您输入的身份证号码不正确，请重新输入');
+			document.getElementById('realIDInput').focus();
+			return false;
+		}
+		//检查省份
+		if(checkProvince(card) === false) {
+			alert('您输入的身份证号码不正确,请重新输入');
+			document.getElementById('realIDInput').focus();
+			return false;
+		}
+		//检查身份证省份与所选户籍所在地
+		if(checkProvinceSelect(card) === false) {
+			alert('您的身份证所在地与你所选户籍所在地不一致，请重新核对身份证号与所选户籍所在地');
+			document.getElementById('realIDInput').focus();
+			return false;
+		}
+		//校验生日
+		if(checkBirthday(card) === false) {
+			alert('您输入的身份证号码生日不正确,请重新输入');
+			document.getElementById('realIDInput').focus();
+			return false;
+		}
+		//检验位的检测
+		if(checkParity(card) === false) {
+			alert('您的身份证校验位不正确,请重新输入');
+			document.getElementById('realIDInput').focus();
+			return false;
+		}
+		//性别位的检测
+		if(checkGender(card) === false) {
+			alert('您的身份证性别与你的性别不一致，请核对你的身份证号码与你的性别！');
+			document.getElementById('realIDInput').focus();
+			return false;
+		}
+		alert('身份证验证通过，可以注册');
+		return true;
+	}
+};
+
+//检查号码是否符合规范，包括长度，类型
+isCardNo = function(card) {
+	//身份证号码为15位或者18位，15位时全为数字，18位前17位为数字，最后一位是校验位，可能为数字或字符X
+	var reg = /(^\d{15}$)|(^\d{17}(\d|X)$)/;
+	if(reg.test(card) === false) {
+		return false;
+	}
+
+	return true;
+};
+
+//取身份证前两位,校验省份
+checkProvince = function(card) {
+	var province = card.substr(0, 2);
+	if(vcity[province] == undefined) {
+		return false;
+	}
+	return true;
+};
+
+//校验身份证省份与所选户籍所在地
+checkProvinceSelect = function(card) {
+	var province = card.substr(0, 2);
+	if(vcity[province] == $("#addressSelect").val()) {
+		return true;
+	}
+	return false;
+};
+
+//检查生日是否正确
+checkBirthday = function(card) {
+	var len = card.length;
+	//身份证15位时，次序为省（3位）市（3位）年（2位）月（2位）日（2位）校验位（3位），皆为数字
+	if(len == '15') {
+		var re_fifteen = /^(\d{6})(\d{2})(\d{2})(\d{2})(\d{3})$/;
+		var arr_data = card.match(re_fifteen);
+		var year = arr_data[2];
+		var month = arr_data[3];
+		var day = arr_data[4];
+		var birthday = new Date('19' + year + '/' + month + '/' + day);
+		return verifyBirthday('19' + year, month, day, birthday);
+	}
+	//身份证18位时，次序为省（3位）市（3位）年（4位）月（2位）日（2位）校验位（4位），校验位末尾可能为X
+	if(len == '18') {
+		var re_eighteen = /^(\d{6})(\d{4})(\d{2})(\d{2})(\d{3})([0-9]|X)$/;
+		var arr_data = card.match(re_eighteen);
+		var year = arr_data[2];
+		var month = arr_data[3];
+		var day = arr_data[4];
+		var birthday = new Date(year + '/' + month + '/' + day);
+		return verifyBirthday(year, month, day, birthday);
+	}
+	return false;
+};
+
+//校验日期
+verifyBirthday = function(year, month, day, birthday) {
+	var now = new Date();
+	var now_year = now.getFullYear();
+	//年月日是否合理
+	if(birthday.getFullYear() == year && (birthday.getMonth() + 1) == month && birthday.getDate() == day) {
+		//判断年份的范围（3岁到100岁之间)
+		var time = now_year - year;
+		if(time >= 3 && time <= 100) {
+			return true;
+		}
+		return false;
+	}
+	return false;
+};
+
+//校验位的检测
+checkParity = function(card) {
+	//15位转18位
+	card = changeFivteenToEighteen(card);
+	var len = card.length;
+	if(len == '18') {
+		var arrInt = new Array(7, 9, 10, 5, 8, 4, 2, 1, 6, 3, 7, 9, 10, 5, 8, 4, 2);
+		var arrCh = new Array('1', '0', 'X', '9', '8', '7', '6', '5', '4', '3', '2');
+		var cardTemp = 0,
+			i, valnum;
+		for(i = 0; i < 17; i++) {
+			cardTemp += card.substr(i, 1) * arrInt[i];
+		}
+		valnum = arrCh[cardTemp % 11];
+		if(valnum == card.substr(17, 1)) {
+			return true;
+		}
+		return false;
+	}
+	return false;
+};
+
+//性别位的检测
+checkGender = function(card) {
+	//15位转18位
+	card = changeFivteenToEighteen(card);
+	var len = card.length;
+	if(len == '18') {
+		var cardTemp = card.substr(16, 1) % 2;
+		if(gender[cardTemp] == $("#genderSelect").val()) {
+			return true;
+		}
+		return false;
+	}
+	return false;
+};
+
+//15位转18位身份证号
+changeFivteenToEighteen = function(card) {
+	if(card.length == '15') {
+		var arrInt = new Array(7, 9, 10, 5, 8, 4, 2, 1, 6, 3, 7, 9, 10, 5, 8, 4, 2);
+		var arrCh = new Array('1', '0', 'X', '9', '8', '7', '6', '5', '4', '3', '2');
+		var cardTemp = 0,
+			i;
+		card = card.substr(0, 6) + '19' + card.substr(6, card.length - 6);
+		for(i = 0; i < 17; i++) {
+			cardTemp += card.substr(i, 1) * arrInt[i];
+		}
+		card += arrCh[cardTemp % 11];
+		return card;
+	}
+	return card;
+};
+
+
 
 window.addEventListener('load', function() {
 	// Checking if Web3 has been injected by the browser (Mist/MetaMask)
@@ -1463,10 +2041,12 @@ window.addEventListener('load', function() {
 		console.warn("Using web3 detected from external source. If you find that your accounts don't appear or you have 0 MetaCoin, ensure you've configured that source properly. If using MetaMask, see the following link. Feel free to delete this warning. :) http://truffleframework.com/tutorials/truffle-and-metamask")
 		// Use Mist/MetaMask's provider
 		window.web3 = new Web3(web3.currentProvider);
+		App.web3Provider = web3.currentProvider;
 	} else {
 		console.warn("No web3 detected. Falling back to http://127.0.0.1:7545. You should remove this fallback when you deploy live, as it's inherently insecure. Consider switching to Metamask for development. More info here: http://truffleframework.com/tutorials/truffle-and-metamask");
 		// fallback - use your fallback strategy (local node / hosted node + in-dapp id mgmt / fail)
 		window.web3 = new Web3(new Web3.providers.HttpProvider("http://127.0.0.1:7545"));
+		App.web3Provider = new Web3.providers.HttpProvider("http://127.0.0.1:7545");
 	}
 	App.start();
 });

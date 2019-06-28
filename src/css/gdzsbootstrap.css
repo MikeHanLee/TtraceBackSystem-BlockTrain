@@ -1,0 +1,108 @@
+a {
+	font-family: "微软雅黑";
+	font-weight: bold;
+	text-decoration: none;
+}
+label{
+	color:#FF5500;
+}
+td{
+	padding: 0.5rem 0;
+}
+tr{
+	border-bottom:0.1rem dashed #00FF00;
+}
+#all{
+	height:100%;
+}
+#all div:first-child{
+	height:100%;
+}
+#chief{
+	min-height: 550px;
+}
+#thePerson{
+	padding-top: 1%;
+	border-style:none solid none none;
+	background-color:'#777';
+	border-color: #444;
+	height:100%;
+}
+#producer{
+	padding-top: 1%;
+	background-color:'#777';
+	border-color: #444;
+	border-style:none solid none none;
+	height:100%;
+}
+#others{
+	padding-top: 1%;
+	border-style:none solid none none;
+	background-color:'#777';
+	border-color: #444;
+	height:100%;
+}
+#person {
+	color:#FFFF00;
+	font-size: 20px;
+}
+#navigate {
+	height: 100%;
+	font-size: 25px;
+	border: dashed;
+	border-color: white;
+}
+#index{
+	color:#FFFF00;
+}
+#allproduct{
+	color:#FFFF00;
+}
+#connect{
+	color:#FFFF00;
+}
+#query{
+	margin-top:25%;
+}
+#choose_query{
+	border: double;
+	border-radius: 40px;
+	padding:0 2%;
+	color: #00DD00;
+	font-size:30px;
+	white-space: nowrap;
+}
+#search-box{
+	position:relative;
+	margin-top:20%;
+	font-size: 30px;
+	font-weight: bold;
+}
+#searchProduct{
+	width:100%;
+	text-indent: 5%;
+	padding-right:25%;
+	border-radius: 40px;
+}
+#ascendProduct{
+	position:absolute;
+	right:0;
+	top:0;
+	color:#FFFFFF;
+	height:100%;
+	padding:0 1%;
+	background-color: #00AAFF;
+	white-space:nowrap;
+	border-radius: 40px;
+}
+.contact{
+	color:#00FFFF;
+	padding:15rem 0;
+	text-align: center;
+}
+#realName label{
+	color:#FF5500;
+	width:10rem;
+	white-space: normal;
+	text-align-last: justify;
+}

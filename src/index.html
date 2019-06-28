@@ -1,265 +1,449 @@
 <!DOCTYPE html>
-<html>
+<html style="height:100%">
 
 	<head>
 		<meta charset="utf-8" />
 		<title>区块链追溯平台</title>
-		<link href="css/index.css" rel="stylesheet">
-		<script src="js/app.js"></script>
-		<script type="text/javascript" src="js/jquery.min.js"></script>
-		<script type="text/javascript" src="js/browser-solc.js"></script>
+		<link rel="icon" href="img/logo.png" type="image/x-icon">
+		<link href="//apps.bdimg.com/libs/bootstrap/3.3.0/css/bootstrap.min.css" rel="stylesheet">
+		<link href="css/gdzsbootstrap.css" rel="stylesheet">
+		<!--<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>-->
+		<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
 		<script type="text/javascript" src="js/web3.min.js"></script>
+		<script type="text/javascript" src="js/browser-solc.js"></script>
+		<script src="js/truffle-contract.js"></script>
+		<script src="js/app.js"></script>
 	</head>
 
-	<body onload="App.initialFunc()" id="body">
-		<!--初始界面-->
-		<div id="header">
-			<div id="front">
-				<div id="headline">
-					<h1 id="head">区块链追溯平台</h1>
-				</div>
-				<div id="personal">
-					<div class="center">
-						<a href="#" onclick="App.displayLogin()" id="person">登录</a>
+	<body onload="App.initialFunc()">
+		<div class="container-fluid" style="height:100%">
+			<!--初始界面-->
+			<header class="row">
+				<div class="col-md-12" style="height:60%;background-color:#00AA00;">
+					<div class="col-md-11">
+						<h1 style="color:#22FFFF"><img src="img/logo.png" style="width:5rem;height:5rem">区块链追溯平台</h1>
 					</div>
-				</div>
-			</div>
-			<div id="navigation">
-				<nav>
-					<div id="nav">
-						<a href="#" class="center" onclick="App.initialFunc()">首页</a>
-					</div>
-					<div id="nav">
-						<a href="#" id="allproduct" class="center" onclick="App.displayAllProduct()">产品</a>
-					</div>
-					<div id="nav">
-						<a href="#" class="center" onclick="App.initialFunc()">联系</a>
-					</div>
-				</nav>
-			</div>
-		</div>
-
-		<div id="chief">
-			<div id="container">
-				<div id="divider">
-					<div id="divider-second">
-						<div id="divid">
-							<div id="query">
-								<a id="query_button" href="#" onclick="App.chooseID()"}>追溯码</a>
-							</div>
-							<div id="query">
-								<a id="query_button" href="#" onclick="App.chooseNAME()">产品名称</a>
-							</div>
-							<div id="query">
-								<a id="query_button" href="#" onclick="App.chooseDIVID()">产品分类</a>
+					<div class="col-md-1 text-center">
+						<div class="row">
+							<div style="margin-top: 20%">
+								<a id="person" href="#" onclick="App.displayLogin()">登录</a>
 							</div>
 						</div>
 					</div>
 				</div>
-				<div id="search">
-					<div id="search-box">
-						<div id="input">
-							<div id="input-text">
-								<input id="searchproduct" type="text" class="search" data-target="1" placeholder="请输入追溯码">
+				<div class="col-md-12" style="height:40%;background-color:#008800;">
+					<div class="row">
+						<nav>
+							<div id="navigate" class="col-md-4 text-center">
+								<a id="index" href="#" class="center" onclick="App.initialFunc()">首页</a>
 							</div>
-							<div id="input-button">
-								<button onclick="App.findById()" class="button" id="ascendproduct">查询</button>
-							</div>		
+							<div id="navigate" class="col-md-4 text-center">
+								<a id="allproduct" href="#" class="center" onclick="App.displayAllProduct()">产品</a>
+							</div>
+							<div id="navigate" class="col-md-4 text-center">
+								<a id="connect" href="#" class="center" onclick="App.displayConnection()">联系</a>
+							</div>
+						</nav>
+					</div>
+				</div>
+			</header>
+
+			<div id="chief" class="row" style="height:75%;background-color:#333333">
+				<!--追溯页面-->
+				<div id="container" class="col-md-12">
+					<div class="col-md-6 col-md-offset-3">
+						<div class="row" id="query">
+							<div class="col-md-4 text-center">
+								<a id="choose_query" href="#" onclick="App.chooseID()" }>追溯码</a>
+							</div>
+							<div class="col-md-4 text-center">
+								<a id="choose_query" href="#" onclick="App.chooseNAME()">产品名称</a>
+							</div>
+							<div class="col-md-4 text-center">
+								<a id="choose_query" href="#" onclick="App.chooseCLASS()">产品分类</a>
+							</div>
+						</div>
+					</div>
+					<div class="col-md-12">
+						<div class="row">
+							<div class="col-md-6 col-md-offset-3 text-center">
+								<div id="search-box">
+									<input id="searchProduct" type="text" class="search" data-target="1" placeholder="请输入追溯码">
+									<a id="ascendProduct" href="#" onclick="App.findById()">查询</a>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<!--登录界面-->
+				<div id="login" class="col-md-12">
+					<div class="col-md-12">
+						<div class="row" style="margin-top:5rem">
+							<div class="col-md-4 col-md-offset-4">
+								<form>
+									<div class="form-group">
+										<label for="emailInputLogin">邮箱：</label>
+										<input id="emailInputLogin" class="form-control" type="email" placeholder="请输入电子邮箱地址！">
+										<span style="color:#F00" id="emailspinfoLogin"></span>
+									</div>
+									<div class="form-group">
+										<label for="passwordInputLogin">密码：</label>
+										<input id="passwordInputLogin" class="form-control" type="password" placeholder="请输入密码！">
+										<span style="color:#F00" id="passwordspinfoLogin"></span>
+									</div>
+									<div style="text-align: center;" class="col-md-6">
+										<a id="btnLogin" class="btn btn-info" href="#" onclick="App.loginBefore()">登录</a>
+									</div>
+									<div style="text-align: center;" class="col-md-6">
+										<a href="#" class="btn btn-info" onclick="App.displayRegister()">注册</a>
+									</div>
+								</form>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<!--注册界面-->
+				<div id="register" class="col-md-12">
+					<div class="col-md-12">
+						<div class="row" style="margin-top:5rem">
+							<div class="col-md-4 col-md-offset-4">
+								<form>
+									<div class="form-group">
+										<label>邮箱：</label>
+										<input id="emailInputRegister" class="form-control" type="text" placeholder="请输入电子邮箱地址！">
+										<span style="color:#F00" id="emailspinfo"></span>
+									</div>
+									<div class="form-group">
+										<label>密码：</label>
+										<input id="passwordInputRegister" class="form-control" type="text" placeholder="请输入密码！">
+										<span style="color:#F00" id="passwordspinfo"></span>
+									</div>
+									<div class="form-group">
+										<label>姓名(昵称)：</label>
+										<input id="nameInputRegister" class="form-control" type="text" placeholder="请输入你的姓名！">
+										<span style="color:#F00" id="namespinfo"></span>
+									</div>
+									<div class="form-group">
+										<label>身份：</label>
+										<select id="roleSelectRegister" class="form-control">
+											<option value='0'>Producer</option>
+											<option value='1'>Tradesman</option>
+											<option value='2'>Consumer</option>
+										</select>
+									</div>
+									<div style="text-align: center;" class="col-md-6">
+										<a class="btn btn-info" href="#" onclick="App.setObjectInfoBefore()">注册</a>
+									</div>
+									<div style="text-align: center;" class="col-md-6">
+										<a class="btn btn-info" href="#" onclick="App.displayLogin()">返回登录</a>
+									</div>
+								</form>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<!--产品界面-->
+				<div id="product" class="col-md-12">
+					<div style="background-color:#22FFFF">
+						<h3>产品信息</h3>
+					</div>
+					<div id="productInfo" class="row">
+
+					</div>
+					<div id="productMoreInfo" class="row">
+
+					</div>
+				</div>
+
+				<!--全部信息页面-->
+				<div id="all" class="col-md-12">
+					<div id="allparent" class="row">
+						<!--最高权限-->
+						<div id="thePerson" class="col-md-1 text-center left">
+							<nav>
+								<div>
+									<a style="width:100%;white-space:normal" class="btn btn-success" href="#" onclick="App.getAllObjectInfo()">个人信息</a>
+								</div>
+								<div>
+									<a style="width:100%;white-space:normal" class="btn btn-success" href="#" onclick="App.dropout()">退出账号</a>
+								</div>
+							</nav>
+						</div>
+						<!--生产者-->
+						<div id="producer" class="col-md-1 left">
+							<nav>
+								<div>
+									<a style="width:100%;white-space:normal" class="btn btn-success" href="#" onclick="App.getObjectInfo()">个人信息</a>
+								</div>
+								<div>
+									<a style="width:100%;white-space:normal" class="btn btn-success" href="#" onclick="App.displaySetProductInfo()">新产品</a>
+								</div>
+								<div>
+									<a style="width:100%;white-space:normal" class="btn btn-success" href="#" onclick="App.getOwnProduct()">与我相关产品</a>
+								</div>
+								<div>
+									<a style="width:100%;white-space:normal" class="btn btn-success" href="#" onclick="App.getOwnProductHaving()">所拥有产品</a>
+								</div>
+								<div>
+									<a style="width:100%;white-space:normal" class="btn btn-success" href="#" onclick="App.judgeRealNameNull()">实名认证</a>
+								</div>
+								<div>
+									<a style="width:100%;white-space:normal" class="btn btn-success" href="#" id="btn" onclick="App.dropout()">退出账号</a>
+								</div>
+							</nav>
+						</div>
+						<!--零售商和消费者-->
+						<div id="others" class="col-md-1 left">
+							<nav>
+								<div>
+									<a style="width:100%;white-space:normal" class="btn btn-success" href="#" onclick="App.getObjectInfo()">个人信息</a>
+								</div>
+								<div>
+									<a style="width:100%;white-space:normal" class="btn btn-success" href="#" onclick="App.getOwnProduct()">与我相关产品</a>
+								</div>
+								<div>
+									<a style="width:100%;white-space:normal" class="btn btn-success" href="#" onclick="App.getOwnProductHaving()">所拥有产品</a>
+								</div>
+								<div>
+									<a style="width:100%;white-space:normal" class="btn btn-success" href="#" onclick="App.judgeRealNameNull()">实名认证</a>
+								</div>
+								<div>
+									<a style="width:100%;white-space:normal" class="btn btn-success" href="#" onclick="App.dropout()">退出账号</a>
+								</div>
+							</nav>
+						</div>
+
+						<!--个人信息-->
+						<div id="objectInfoDIV" class="col-md-11 right">
+							<div>
+								<h3 style="background-color:#00AADD">你的信息</h3>
+							</div>
+							<div id="objectInfo">
+
+							</div>
+						</div>
+						<!--实名认证-->
+						<div id="realName" class="col-md-11 right">
+							<div class="row" style="margin-top:5rem">
+								<div class="col-md-4 col-md-offset-4 text-center">
+									<form>
+										<div class="form-group">
+											<label>真实姓名</label><span style="color:#FF5500;">：</span>
+											<input id="realNameInput" class="form-control" type="text" placeholder="请输入真实姓名！">
+											<span style="color:#F00" id="realIDspinfo"></span>
+										</div>
+										<div class="form-group">
+											<label>性别</label><span style="color:#FF5500;">：</span>
+											<select id="genderSelect" class="form-control">
+												<option value='男'>男</option>
+												<option value='女'>女</option>
+											</select>
+										</div>
+										<div class="form-group">
+											<label>户籍所在地</label><span style="color:#FF5500;">：</span>
+											<select id="addressSelect" class="form-control">
+												<option>请选择户籍所在地</option>
+											</select>
+										</div>
+										<div class="form-group">
+											<label>身份证号码</label><span style="color:#FF5500;">：</span>
+											<input id="realIDInput" class="form-control" type="text" placeholder="请输入身份证号！">
+											<span style="color:#F00" id="realIDspinfo"></span>
+										</div>
+										<div>
+											<a class="btn btn-info" href="#" onclick="App.realNameAuthenticateBefore()">确定</a>
+										</div>
+									</form>
+								</div>
+							</div>
+							<div class="row" style="display:none;margin-top:5rem">
+								<div class="col-md-4 col-md-offset-4">
+									<label>真实姓名</label><span style="color:#FF5500;">：</span>
+									<span style="color:#0F0" id="realNameInfo"></span>
+								</div>
+								<div class="col-md-4 col-md-offset-4">
+									<label>性别</label><span style="color:#FF5500;">：</span>
+									<span style="color:#0F0" id="genderInfo"></span>
+								</div>
+								<div class="col-md-4 col-md-offset-4">
+									<label>身份证号码</label><span style="color:#FF5500;">：</span>
+									<span style="color:#0F0" id="realIDInfo"></span>
+								</div>
+								<div class="col-md-4 col-md-offset-4">
+									<label>户籍地所在地</label><span style="color:#FF5500;">：</span>
+									<span style="color:#0F0" id="addressInfo"></span>
+								</div>
+							</div>
+						</div>
+						<!--查询交易对象-->
+						<div id="getRole" class="col-md-11 right">
+							<div class="row">
+								<div class="col-md-4 col-md-offset-4 text-center">
+									<form>
+										<div class="form-group">
+											<label>地址：</label>
+											<input class="form-control" type="text" placeholder="请输入你的用户地址！">
+										</div>
+										<div>
+											<a class="btn btn-info" href="#" onclick="App.getRole()">查询</a>
+										</div>
+									</form>
+								</div>
+							</div>
+						</div>
+						<!--添加产品-->
+						<div id="setProduct" class="col-md-11 right">
+							<div class="row" style="margin-top:5rem">
+								<div class="col-md-4 col-md-offset-4 text-center">
+									<form>
+										<div class="form-group">
+											<label>产品ID：</label>
+											<input id="productIdInputSetProduct" class="form-control" type="text" placeholder="请输入产品ID！">
+											<span style="color:#F00" id="productIdspinfo"></span>
+										</div>
+										<div class="form-group">
+											<label>产品名称：</label>
+											<input id="productNameInputSetProduct" class="form-control" type="text" placeholder="请输入产品名称！">
+											<span style="color:#F00" id="productNamespinfo"></span>
+										</div>
+										<div class="form-group">
+											<label>产品修改信息密码：</label>
+											<input id="passwordInputSetProduct" class="form-control" type="text" placeholder="请输入产品修改信息密码！">
+											<span style="color:#F00" id="passwordInputspinfo"></span>
+										</div>
+										<div class="form-group">
+											<label>产品类别：</label>
+											<select id="classSelectSetProduct" class="form-control">
+												<option value='0'>珠宝</option>
+												<option value='1'>玉石</option>
+												<option value='2'>工艺品</option>
+											</select>
+										</div>
+										<div class="form-group">
+											<label>产品完好状况：</label>
+											<input id="statusInputSetProduct" class="form-control" type="text" placeholder="请输入产品完好状况！">
+											<span style="color:#F00" id="statusspinfo"></span>
+										</div>
+										<div class="form-group">
+											<label>产品质量等级：</label>
+											<select id="gradeSelectSetProduct" class="form-control">
+												<option value='0'>一级</option>
+												<option value='1'>二级</option>
+												<option value='2'>三级</option>
+											</select>
+										</div>
+										<div class="form-group">
+											<label>产品重量：</label>
+											<input id="productWeightSetProduct" class="form-control" type="text" placeholder="请输入产品重量！">
+											<span style="color:#F00" id="productWeightspinfo"></span>
+										</div>
+										<div class="form-group">
+											<label>鉴定证书名称：</label>
+											<input id="certificateNameSetProduct" class="form-control" type="text" placeholder="请输入鉴定证书名称！">
+											<span style="color:#F00" id="certificateNamespinfo"></span>
+										</div>
+										<div class="form-group">
+											<label>鉴定证书重量：</label>
+											<input id="certificateWeightSetProduct" class="form-control" type="text" placeholder="请输入鉴定证书重量！">
+											<span style="color:#F00" id="certificateWeightspinfo"></span>
+										</div>
+										<div class="form-group">
+											<label>鉴定证书颁布机构：</label>
+											<input id="certificateSourceSetProduct" class="form-control" type="text" placeholder="请输入鉴定证书颁布机构！">
+											<span style="color:#F00" id="certificateSourcespinfo"></span>
+										</div>
+										<div id="appraiserDivSetProduct" class="form-group">
+											<label>产品鉴定员：</label>
+											<div class="row">
+												<div class="col-md-8">
+													<input class="form-control" type="text" placeholder="请输入产品鉴定员！">
+												</div>
+											</div>
+											<div class="row">
+												<div class="col-md-8">
+													<input class="form-control" type="text" placeholder="请输入产品鉴定员！">
+												</div>
+												<div class="col-md-2">
+													<a class="btn btn-info" href="#" onclick="App.addInput(this)">添加</a>
+												</div>
+											</div>
+										</div>
+										<span style="color:#F00" id="appraiserDivspinfo"></span>
+										<div id="identifyInfoDivSetProduct" class="form-group">
+											<label>详细产品鉴定信息：</label>
+											<div class="row">
+												<div class="col-md-8">
+													<input class="form-control" type="text" placeholder="请输入详细的产品鉴定信息！">
+												</div>
+												<div class="col-md-2">
+													<a class="btn btn-info" href="#" onclick="App.addInput(this)">添加</a>
+												</div>
+											</div>
+										</div>
+										<span style="color:#F00" id="identifyInfoDivspinfo"></span>
+										<div class="form-group">
+											<a class="btn btn-info" href="#" onclick="App.producerSetProductInfoBefore()">确定</a>
+										</div>
+									</form>
+								</div>
+							</div>
+						</div>
+						<!--修改产品信息-->
+						<div id="buyProduct" class="col-md-11 right">
+							<div class="row">
+								<div class="col-md-4 col-md-offset-4 text-center">
+									<form>
+										<div class="form-group">
+											<label>产品密码：</label>
+											<input id="passwordInputSetInfoByOthers" class="form-control" type="text" placeholder="请输入产品信息修改密码！">
+											<span style="color:#F00" id="passwordOthersspinfo"></span>
+										</div>
+										<div class="form-group">
+											<label>新产品密码：</label>
+											<input id="newPasswordInputSetInfoByOthers" class="form-control" type="text" placeholder="请输入新的产品信息修改密码！">
+											<span style="color:#F00" id="newPasswordOthersspinfo"></span>
+											<span style="color:#0F0">*新的产品信息修改密码最好不要与原密码相同，以免卖家重新修改产品所属人</span>
+										</div>
+										<div>
+											<a id="modifyInfo" class="btn btn-info" href="#">确定修改</a>
+										</div>
+									</form>
+								</div>
+							</div>
+						</div>
+						<div id="personProductInfo" class="col-md-11 right">
+
+						</div>
+					</div>
+				</div>
+
+				<!--联系页面-->
+				<div id="connection" class="col-md-12">
+					<div class="row">
+						<div class="col-md-12">
+							<h3 style="color:#0F0">链飞智，一切只专注于追本溯源</h3>
+							<div class="contact col-md-12">
+								<div>联系我们</div>
+								<div>QQ:1101995377</div>
+								<div>电话:18934911775</div>
+								<div>邮箱:1101995377@qq.com</div>
+							</div>
 						</div>
 					</div>
 				</div>
 			</div>
 
-			<!--登录界面-->
-			<div id="login">
-				<div id="login_style">
+			<footer class="row" style="background-color:#111111;color:#FFFFFF">
+				<div class="col-md-4 col-md-offset-4 text-center">
 					<div>
-						<div id="login_input">
-							<label>邮箱：</label>
-							<input id="emailinput_login" type="email" placeholder="请输入电子邮箱地址！">
-						</div>
-						<div id="login_input">
-							<label>密码：</label>
-							<input id="passwordinput_login" type="password" placeholder="请输入密码！">
-						</div>
-					</div>
-					<div>
-						<div id="btn_index">
-							<button id="btn" onclick="App.login()">登录</button>
-						</div>
-						<div id="btn_index">
-							<button id="btnroot" onclick="App.displayLoginRoot()">ROOT</button>
-						</div>
-						<div id="btn_index">
-							<button id="btn" onclick="App.displayRegister()">注册</button>
-						</div>
+						<p>基于物联网区块链的古董字画宝石追溯系统</p>
+						<p>由高泽华老师指导，梁勋铵、石承致、赵晨晨三人共同开发</p>
 					</div>
 				</div>
-			</div>
-
-			<!--注册界面-->
-			<div id="register">
-				<div id="register_style">
-					<div>
-						<label>邮箱：</label>
-						<input id="emailinput_register" type="text" placeholder="请输入电子邮箱地址！">
-					</div>
-					<div>
-						<label>密码：</label>
-						<input id="passwordinput_register" type="text" placeholder="请输入密码！">
-					</div>
-					<div>
-						<label>姓名：</label>
-						<input id="nameinput_register" type="text" placeholder="请输入你的姓名！">
-					</div>
-					<div>
-						<label>身份：</label>
-						<select id="roleselect_register">
-							<option value='0'>Producer</option>
-							<option value='1'>Tradesman</option>
-							<option value='2'>Consumer</option>
-						</select>
-					</div>
-					<div id="btn_index">
-						<button id="btn" onclick="App.setObjectInfo()">注册</button>
-					</div>
-					<div id="btn_index">
-						<button id="btn" onclick="App.displayLogin()">返回登录</button>
-					</div>
-				</div>
-			</div>
-
-			<!--产品界面-->
-			<div id="product">
-				<div id="productinfo">产品信息</div>
-				<div id="product_info">
-
-				</div>
-				<div id="productsearch">
-
-				</div>
-			</div>
-
-			<!--theperson-->
-			<div id="thePerson">
-				<div id="btn_index">
-					<button id="btn" onclick="App.getAllObjectInfo()">查询用户信息</button>
-				</div>
-				<div id="btn_index">
-					<button id="btn" onclick="App.dropout()">退出账号</button>
-				</div>
-			</div>
-
-			<!--生产者-->
-			<div id="producer">
-				<div id="btn_index">
-					<button id="btn" onclick="App.getObjectInfo()">查询用户信息</button>
-				</div>
-				<div id="btn_index">
-					<button id="btn" onclick="App.displaySetProductInfo()">录入新产品信息</button>
-				</div>
-				<div id="btn_index">
-					<button id="btn" onclick="App.displaySetRole()">指定交易对象身份</button>
-				</div>
-				<div id="btn_index">
-					<button id="btn" onclick="App.displayGetRole()">获取现在指定的交易对象身份</button>
-				</div>
-				<div id="btn_index">
-					<button id="btn" onclick="App.dropout()">退出账号</button>
-				</div>
-			</div>
-
-			<!--零售商-->
-			<div id="tradesman">
-				<div id="btn_index">
-					<button id="btn" onclick="App.getObjectInfo()">查询用户信息</button>
-				</div>
-				<div id="btn_index">
-					<button id="btn" onclick="App.displaySetRole()">指定交易对象身份</button>
-				</div>
-				<div id="btn_index">
-					<button id="btn" onclick="App.displayGetRole()">获取现在指定的交易对象身份</button>
-				</div>
-				<div id="btn_index">
-					<button id="btn" onclick="App.dropout()">退出账号</button>
-				</div>
-			</div>
-
-			<!--消费者-->
-			<div id="consumer">
-				<div id="btn_index">
-					<button id="btn" onclick="App.getObjectInfo()">查询用户信息</button>
-				</div>
-				<div id="btn_index">
-					<button id="btn" onclick="App.displaySetRole()">指定交易对象身份</button>
-				</div>
-				<div id="btn_index">
-					<button id="btn" onclick="App.displayGetRole()">获取现在指定的交易对象身份</button>
-				</div>
-				<div id="btn_index">
-					<button id="btn" onclick="App.dropout()">退出账号</button>
-				</div>
-			</div>
-
-			<!--设置-->
-			<div id="setting">
-				<div id="setrole">
-					<div>
-						<label>用户指定身份：</label>
-						<select id="roleselect_setrole">
-							<option value='0'>Producer</option>
-							<option value='1'>Tradesman</option>
-							<option value='2'>Consumer</option>
-						</select>
-					</div>
-					<div id="btn_index">
-						<button id="btn" onclick="App.setRole()">确定</button>
-					</div>
-				</div>
-				<div id="getrole">
-					<div>
-						<label>地址：</label>
-						<input id="addressinput_getrole" type="text" placeholder="请输入你的用户地址！">
-					</div>
-					<div id="btn_index">
-						<button id="btn" onclick="App.getRole()">查询</button>
-					</div>
-				</div>
-				<div id="setproduct">
-					<div>
-						<label>产品ID：</label>
-						<input id="productidinput_setproduct" type="text" placeholder="请输入产品ID！">
-					</div>
-					<div>
-						<label>产品名称：</label>
-						<input id="productnameinput_setproduct" type="text" placeholder="请输入产品名称！">
-					</div>
-					<div id="btn_index">
-						<button id="btn" onclick="App.producerSetProductInfo()">确定</button>
-					</div>
-				</div>
-				<div id="buyproduct">
-					<div>
-						<label>产品序号：</label>
-						<input id="productcountinput_setproducttradesman" type="number" placeholder="请输入产品序号！">
-					</div>
-					<div id="btn_index">
-						<button id="btn" onclick="App.tradesmanSetProductInfo()">确定购买</button>
-					</div>
-				</div>
-				<div id="object_info">
-
-				</div>
-				<div id="roleinfo">
-
-				</div>
-			</div>
-		</div>
-		<div id="footer">
-			<div id="bottom">
-				<p>基于物联网区块链的古董字画宝石追溯系统</p>
-				<p>由高泽华老师指导，梁勋铵、石承致、赵晨晨三人共同开发</p>
-			</div>
+			</footer>
 		</div>
 	</body>
 
