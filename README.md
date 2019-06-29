@@ -7,18 +7,18 @@
 二、可以通过追溯码，产品ID以及商品种类对相应的商品进行搜索查询，用户可以了解相关产品的商品信息与鉴权证书信息。
 
 
+## 首页界面
+
 ![avatar](index.png)
 
-<center>首页界面</center>
+## 注册界面
 
 ![avatar](register.png)
 
-<center>注册界面</center>
+## 实名认证界面
 
 ![avatar](real_name_authentication.png)
 
-<center>实名认证界面</center>
+## 新建产品界面
 
 ![avatar](new_product.png)
-
-<center>新建产品界面</center>
