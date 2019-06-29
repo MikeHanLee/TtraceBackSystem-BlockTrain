@@ -5,3 +5,20 @@
 一、可以完成用户的注册登录，商品信息以及生产厂家中间产家以及购买者信息的录入。
 
 二、可以通过追溯码，产品ID以及商品种类对相应的商品进行搜索查询，用户可以了解相关产品的商品信息与鉴权证书信息。
+
+
+![avatar](index.png)
+
+首页界面
+
+![avatar](register.png)
+
+注册界面
+
+![avatar](real_name_authentication)
+
+实名认证界面
+
+![avatar](new_product.png)
+
+新建产品界面
