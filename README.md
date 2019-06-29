@@ -9,16 +9,16 @@
 
 ![avatar](index.png)
 
-首页界面
+<center>首页界面</center>
 
 ![avatar](register.png)
 
-注册界面
+<center>注册界面</center>
 
-![avatar](real_name_authentication)
+![avatar](real_name_authentication.png)
 
-实名认证界面
+<center>实名认证界面</center>
 
 ![avatar](new_product.png)
 
-新建产品界面
+<center>新建产品界面</center>
